@@ -25,5 +25,6 @@ namespace LibrarySystem.Repository.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<LibraryLocation> LibraryLocations { get; set; }
         public DbSet<Publication> Publications { get; set; }
+        public DbSet<Member> Members { get; set; }
     }
 }
