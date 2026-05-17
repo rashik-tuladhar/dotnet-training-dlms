@@ -1,7 +1,6 @@
 ﻿using LibrarySystem.Business.LocationBusiness;
-using LibrarySystem.Repository.Models;
+using LibrarySystem.Shared.LocationData;
 using Microsoft.AspNetCore.Mvc;
-using LibrarySystem.Shared.BookData;
 
 namespace LibrarySystem.Controllers
 {
@@ -36,12 +35,12 @@ namespace LibrarySystem.Controllers
                 if (isAdded)
                 {
                     TempData["isSuccess"] = "YES";
-                    TempData["Message"] = "Location added successfully";
+                    TempData["Message"] = "Location Added Successfully";
                 }
                 else
                 {
                     TempData["isSuccess"] = "YES";
-                    TempData["Message"] = "Failed to add Location";
+                    TempData["Message"] = "Failed to Add Location";
                 }
                 return RedirectToAction("Index");
             }
@@ -66,14 +65,15 @@ namespace LibrarySystem.Controllers
             if (ModelState.IsValid)
             {
                 var details = await _locationBusiness.EditLocation(libraryLocation);
-                if (!details)
+                if (details)
                 {
-                    TempData["isSuccess"] = "NO";
-                    TempData["Message"] = "Failed to update location details";
+                    TempData["isSuccess"] = "YES";
+                    TempData["Message"] = "Location Updated Successfully";
                 }
                 else
                 {
-                    TempData["Message"] = "Location details updated successfully";
+                    TempData["isSuccess"] = "NO";
+                    TempData["Message"] = "Failed to Update Location";
                 }
                 return RedirectToAction("Index");
             }

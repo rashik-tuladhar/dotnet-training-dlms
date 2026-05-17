@@ -1,5 +1,5 @@
-﻿using LibrarySystem.Repository.Models;
-using LibrarySystem.Shared.BookData;
+﻿using LibrarySystem.Shared.BookData;
+using LibrarySystem.Shared.LocationData;
 
 namespace LibrarySystem.Business.LocationBusiness
 {

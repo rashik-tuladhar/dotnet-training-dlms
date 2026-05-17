@@ -1,5 +1,6 @@
 ﻿using LibrarySystem.Repository.Models;
 using LibrarySystem.Shared.BookData;
+using LibrarySystem.Shared.LocationData;
 using System;
 using System.Collections.Generic;
 using System.Text;

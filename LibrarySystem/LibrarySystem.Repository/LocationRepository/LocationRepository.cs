@@ -1,5 +1,6 @@
 ﻿using LibrarySystem.Repository.Data;
 using LibrarySystem.Repository.Models;
+using LibrarySystem.Shared.LocationData;
 using Microsoft.EntityFrameworkCore;
 namespace LibrarySystem.Repository.LocationRepository
 {

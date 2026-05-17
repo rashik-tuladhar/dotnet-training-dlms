@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LibrarySystem.Repository.Models;
+namespace LibrarySystem.Shared.LocationData;
 
 public class LibraryLocationDetails
 {
@@ -13,9 +13,12 @@ public class LibraryLocationDetails
     [Required]
     public string Shelf { get; set; }
 
+    [Required]
     public string? Section { get; set; }
 
+    [Required]
     public string? Floor { get; set; }
 
+    [Required]
     public string? Description { get; set; }
 }

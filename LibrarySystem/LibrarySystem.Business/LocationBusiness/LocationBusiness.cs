@@ -1,5 +1,5 @@
 ﻿using LibrarySystem.Repository.LocationRepository;
-using LibrarySystem.Repository.Models;
+using LibrarySystem.Shared.LocationData;
 namespace LibrarySystem.Business.LocationBusiness
 {
     public class LocationBusiness : ILocationBusiness
