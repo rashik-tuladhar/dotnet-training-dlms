@@ -1,18 +1,15 @@
 using LibrarySystem.Business.AuthorBusiness;
 using LibrarySystem.Business.BookBusiness;
-using LibrarySystem.Repository.AuthorRepository;
-
 using LibrarySystem.Business.CategoryBuisness;
-
-
-using LibrarySystem.Business.PublicationBusiness;
-using LibrarySystem.Repository.BookRepository;
-
-using LibrarySystem.Repository.CategoryRepository;
-
 using LibrarySystem.Business.LocationBusiness;
-using LibrarySystem.Repository.LocationRepository;
+using LibrarySystem.Business.MemberBusiness;
+using LibrarySystem.Business.PublicationBusiness;
+using LibrarySystem.Repository.AuthorRepository;
+using LibrarySystem.Repository.BookRepository;
+using LibrarySystem.Repository.CategoryRepository;
 using LibrarySystem.Repository.Data;
+using LibrarySystem.Repository.LocationRepository;
+using LibrarySystem.Repository.MemberRepository;
 using LibrarySystem.Repository.PublicationRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +29,8 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IPublicationBusiness, PublicationBusiness>();
+builder.Services.AddScoped<IMemberBusiness, MemberBusiness>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
