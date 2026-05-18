@@ -75,7 +75,7 @@ namespace LibrarySystem.Repository.MemberRepository
 
         public bool RenewMembership(int memberId, int days)
         {
-            var member = _context.Members.Find(memberId);
+            var member = _context.Members.Find( memberId);
 
             if (member == null)
             {

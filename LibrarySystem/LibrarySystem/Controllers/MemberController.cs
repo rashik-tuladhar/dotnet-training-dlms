@@ -87,11 +87,15 @@ namespace LibrarySystem.Controllers
             }
         }
 
-        public async Task<IActionResult> RenewMembership(string id)
+        public async Task<IActionResult> RenewMembership(int id)
         {
-            int memberId = Convert.ToInt32(id);
+            //int memberId = Convert.ToInt32(id);
 
-            var member = await _memberBusiness.GetMemberDetails(memberId);
+            var member = await _memberBusiness.GetMemberDetails(id);
+            if (member == null)
+            {
+                return NotFound();
+            }
 
             return View(member);
         }
@@ -100,7 +104,7 @@ namespace LibrarySystem.Controllers
         [HttpPost]
         public async Task<IActionResult> RenewMembership(int memberId, int days)
         {
-            await _memberBusiness.RenewMembership(memberId, days);
+            await _memberBusiness.RenewMembership(memberId,  days);
 
             return RedirectToAction("Index");
         }

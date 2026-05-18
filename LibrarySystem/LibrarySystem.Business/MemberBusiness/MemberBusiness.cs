@@ -54,6 +54,10 @@ namespace LibrarySystem.Business.MemberBusiness
         public async Task<MemberDetails> GetMemberDetails(int id)
         {
             var memberData = await _memberRepository.GetMembernDetails(id);
+            if (memberData == null)
+            {
+                return null;
+            }
             var memberDetails = new MemberDetails
             {
                 MemberId = memberData.MemberId,
@@ -83,11 +87,7 @@ namespace LibrarySystem.Business.MemberBusiness
             throw new NotImplementedException();
         }
 
-        public bool RenewMembership(int memberId)
-        {
-            throw new NotImplementedException();
-        }
-
+       
         public async Task<List<MemberDetails>> ViewAllList()
         {
             List<MemberDetails> memberList = new List<MemberDetails>();
@@ -113,7 +113,7 @@ namespace LibrarySystem.Business.MemberBusiness
             return memberList;
         }
 
-        public async Task<bool> RenewMembership(int memberId, int days)
+        public async Task<bool> RenewMembership(int memberId,int days)
         {
             return _memberRepository.RenewMembership(memberId, days);
         }

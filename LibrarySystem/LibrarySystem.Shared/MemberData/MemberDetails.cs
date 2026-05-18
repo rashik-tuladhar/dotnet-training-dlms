@@ -22,5 +22,6 @@ namespace LibrarySystem.Shared.MemberData
         public string? CreatedBy { get; set; }
         public DateOnly ModifiedDate { get; set; }
         public string? ModifiedBy { get; set; }
+        public int days { get; set; }
     }
 }

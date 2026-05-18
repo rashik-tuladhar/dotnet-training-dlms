@@ -3,8 +3,8 @@
 <h1>Hello Member Index</h1>
 
 <a asp-controller="Member" asp-action="AddMembers" class="btn btn-primary">Add Member</a>
-<a asp-controller="Member" asp-action="RenewMembership" calss="btn btn-primary">Renew MemberShip</a>
-
+@* <a asp-controller="Member" asp-action="RenewMembership" calss="btn btn-primary">Renew MemberShip</a>
+ *@
 @{
     string tempDataMessage = TempData["isSuccess"] as string;
     if (tempDataMessage == "YES")
@@ -46,6 +46,9 @@
                 <th>Member Join Date</th>
                 <th>Member Expiry Date</th>
                 <th>Action</th>
+
+                <th>RenewMembership</th>
+
             </tr>
         </thead>
         <tbody>
@@ -62,6 +65,8 @@
                         <td>@member.ExpirationDate</td>
 
                         <td><a class="btn btn-primary btn-sm" asp-controller="Member" asp-action="EditMembers" asp-route-id="@member.MemberId">Edit</a></td>
+                        <td><a class="btn btn-primary btn-sm" asp-controller="Member" asp-action="RenewMembership" asp-route-id="@member.MemberId">Update</a></td>
+
                     </tr>
                     i++;
                 }
