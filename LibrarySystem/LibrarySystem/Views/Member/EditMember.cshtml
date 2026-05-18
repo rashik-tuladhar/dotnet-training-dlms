@@ -1,0 +1,86 @@
+﻿@using LibrarySystem.Shared.MemberData
+@using LibrarySystem.Repository.Models
+@model MemberDetails
+
+<h1>Edit Member</h1>
+
+<form asp-controller="Member" asp-action="EditMember" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="MemberName">Member Name</label>
+        <input type="text" asp-for="MemberName" placeholder="Enter Member Name" class="form-control" />
+        <span asp-validation-for="MemberName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Phone">Phone</label>
+        <input type="text" asp-for="Phone" placeholder="Enter Phone Number" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Address">Address</label>
+        <input type="text" asp-for="Address" placeholder="Enter Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email">Email</label>
+        <input type="email" asp-for="Email" placeholder="Enter Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="JoinedDate">Joined Date</label>
+        <input type="date" asp-for="JoinedDate" class="form-control" />
+        <span asp-validation-for="JoinedDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ExpirationDate">Expiration Date</label>
+        <input type="date" asp-for="ExpirationDate" class="form-control" />
+        <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MembershipType">Membership Type</label>
+        <select asp-for="MembershipType" asp-items="Html.GetEnumSelectList<MembershipType>()" class="form-control">
+            <option value="">-- Select Membership Type --</option>
+        </select>
+        <span asp-validation-for="MembershipType" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Status">Status</label>
+        <select asp-for="Status" asp-items="Html.GetEnumSelectList<MemberStatus>()" class="form-control">
+            <option value="">-- Select Status --</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CreatedBy">Created By</label>
+        <input type="text" asp-for="CreatedBy" placeholder="Enter Created By" class="form-control" />
+        <span asp-validation-for="CreatedBy" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ModifiedBy">Modified By</label>
+        <input type="text" asp-for="ModifiedBy" placeholder="Enter Modified By" class="form-control" />
+        <span asp-validation-for="ModifiedBy" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <div class="form-group">
+        <input type="hidden" asp-for="MemberId" />
+        <input type="submit" value="Submit" class="btn btn-success" />
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

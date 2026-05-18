@@ -8,6 +8,6 @@ namespace LibrarySystem.Repository.MemberRepository
         Task<bool> AddMember(Member member);
         Task<bool> EditMembers(MemberDetails member);
         Task<Member> GetMemberDetails(int id);
-        Task<List<Member>> GetMemberList();
+        Task<List<Member>> GetMemberList(string? searchText = null);
     }
 }

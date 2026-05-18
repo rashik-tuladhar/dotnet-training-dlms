@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using LibrarySystem.Shared.MemberData;
 
 namespace LibrarySystem.Business.MemberBusiness
 {
-    internal interface IMemberBusiness
+    public interface IMemberBusiness
     {
+        Task<bool> AddMember(MemberDetails member);
+        Task<bool> EditMembers(MemberDetails member);
+        Task<MemberDetails> GetMemberDetails(int id);
+        Task<List<MemberDetails>> GetMemberList(string? searchText = null);
     }
 }

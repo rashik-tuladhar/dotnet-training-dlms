@@ -60,9 +60,16 @@ namespace LibrarySystem.Repository.MemberRepository
             return memberDetails;
         }
 
-        public async Task<List<Member>> GetMemberList()
+        public async Task<List<Member>> GetMemberList(string? searchText = null)
         {
-            var memberList = await _context.Members
+            var query = _context.Members.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                query = query.Where(x => x.MemberName.Contains(searchText));
+            }
+
+            var memberList = await query
                 .AsNoTracking()
                 .OrderByDescending(x => x.MemberId)
                 .ToListAsync();

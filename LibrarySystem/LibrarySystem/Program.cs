@@ -14,6 +14,8 @@ using LibrarySystem.Business.LocationBusiness;
 using LibrarySystem.Repository.LocationRepository;
 using LibrarySystem.Repository.Data;
 using LibrarySystem.Repository.PublicationRepository;
+using LibrarySystem.Business.MemberBusiness;
+using LibrarySystem.Repository.MemberRepository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +35,9 @@ builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IPublicationBusiness, PublicationBusiness>();
 builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
+builder.Services.AddScoped<IMemberBusiness, MemberBusiness>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddScoped<IPublicationBusiness, PublicationBusiness>();
