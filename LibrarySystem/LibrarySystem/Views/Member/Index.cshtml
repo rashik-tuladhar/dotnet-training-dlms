@@ -1,0 +1,71 @@
+﻿@using LibrarySystem.Shared.MemberData
+@model List<MemberDetails>
+<h1>Hello Member Index</h1>
+
+<a asp-controller="Member" asp-action="AddMembers" class="btn btn-primary">Add Member</a>
+<a asp-controller="Member" asp-action="RenewMembership" calss="btn btn-primary">Renew MemberShip</a>
+
+@{
+    string tempDataMessage = TempData["isSuccess"] as string;
+    if (tempDataMessage == "YES")
+    {
+        <span class="text-success">@TempData["Message"]</span>
+    }
+    else
+    {
+        <span class="text-danger">@TempData["Message"]</span>
+    }
+}
+
+@* <form method="get" asp-controller="Member" asp-action="Index" >
+    <br> <div class="row mb-3">
+        <div class="col-md-4">
+            <input type="text"
+                   name="searchText"
+                   value="@Context.Request.Query["searchText"]"
+                   class="form-control" 
+                   placeholder="Search publication name..." />
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
+        </div>
+    </div>
+</form> *@
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>SN</th>
+                <th>Member Id</th>
+                <th>Member Name</th>
+                <th>Member Address</th>
+                <th>Member Join Date</th>
+                <th>Member Expiry Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+                foreach (var member in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@member.MemberId</td>
+                        <td>@member.MemberName</td>
+                        <td>@member.Address</td>
+                        <td>@member.JoinedDate</td>
+                        <td>@member.ExpirationDate</td>
+
+                        <td><a class="btn btn-primary btn-sm" asp-controller="Member" asp-action="EditMembers" asp-route-id="@member.MemberId">Edit</a></td>
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
+    </table>
+</div>

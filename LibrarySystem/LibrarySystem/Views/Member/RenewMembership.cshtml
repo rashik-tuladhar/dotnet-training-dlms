@@ -1,0 +1,11 @@
+﻿<form asp-action="RenewMembership" method="post">
+
+    <input type="hidden" name="memberId" value="@Model.MemberId" />
+
+    <label>Enter Days</label>
+
+    <input type="number" name="days" />
+
+    <button type="submit">Renew</button>
+
+</form>

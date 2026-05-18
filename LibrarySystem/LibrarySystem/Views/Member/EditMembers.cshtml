@@ -1,0 +1,60 @@
+﻿@model LibrarySystem.Shared.MemberData.MemberDetails
+
+
+<h1>Edit Member</h1>
+<form asp-controller="Member" asp-action="EditMembers" method="post">
+
+    <div>
+        <label asp-for="MemberName"></label>
+        <input asp-for="MemberName" class="form-control" />
+        <span asp-validation-for="MemberName" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" class="form-control" />
+    </div>
+
+    <div>
+        <label asp-for="Address"></label>
+        <input asp-for="Address" class="form-control" />
+    </div>
+
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <div>
+        <label asp-for="JoinedDate"></label>
+        <input asp-for="JoinedDate" type="date" class="form-control" />
+    </div>
+
+    <div>
+        <label asp-for="ExpirationDate"></label>
+        <input asp-for="ExpirationDate" type="date" class="form-control" />
+    </div>
+
+    <div>
+        <label asp-for="MembershipType"></label>
+        <input asp-for="MembershipType" class="form-control" />
+    </div>
+
+    <div>
+        <label asp-for="Status"></label>
+        <input asp-for="Status" class="form-control" />
+    </div>
+
+    <br />
+    <input type="hidden" asp-for="MemberId" />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

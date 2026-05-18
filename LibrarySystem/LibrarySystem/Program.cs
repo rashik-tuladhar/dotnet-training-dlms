@@ -15,6 +15,8 @@ using LibrarySystem.Repository.LocationRepository;
 using LibrarySystem.Repository.Data;
 using LibrarySystem.Repository.PublicationRepository;
 using Microsoft.EntityFrameworkCore;
+using LibrarySystem.Repository.MemberRepository;
+using LibrarySystem.Business.MemberBusiness;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +39,8 @@ builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddScoped<IPublicationBusiness, PublicationBusiness>();
 builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<IMemberBusiness, MemberBusiness>();
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -62,7 +66,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Member}/{action=AddMembers}/{id?}")
     .WithStaticAssets();
 
 
