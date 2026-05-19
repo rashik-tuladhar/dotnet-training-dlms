@@ -34,12 +34,11 @@ namespace LibrarySystem.Repository.MemberRepository
             throw new NotImplementedException();
         }
 
-        public async Task<bool> EditMembers(MemberDetails member)
+        public async Task<bool> EditMembers(Member member)
         {
-            var memberDetails = _context.Members.FirstOrDefault(x => x.MemberId == member.MemberId);
+            var memberDetails = await _context.Members.FirstOrDefaultAsync(x => x.MemberId == member.MemberId);
             if (memberDetails != null)
             {
-                memberDetails.MemberId = member.MemberId;
                 memberDetails.MemberName = member.MemberName;
                 memberDetails.Phone = member.Phone;
                 memberDetails.Address = member.Address;
@@ -48,8 +47,7 @@ namespace LibrarySystem.Repository.MemberRepository
                 memberDetails.ExpirationDate = member.ExpirationDate;
                 memberDetails.MembershipType = member.MembershipType;
                 memberDetails.Status = member.Status;
-                memberDetails.CreatedDate = member.CreatedDate;
-                memberDetails.CreatedBy = member.CreatedBy;
+                memberDetails.ModifiedBy = member.ModifiedBy;
                 var result = await _context.SaveChangesAsync();
                 if (result > 0)
                     return true;
@@ -59,7 +57,7 @@ namespace LibrarySystem.Repository.MemberRepository
 
         public async Task<Member> GetMembernDetails(int id)
         {
-            var memberDetails = await _context.Members.AsNoTracking().FirstOrDefaultAsync(x => x.MemberId == id);
+            var memberDetails = await _context.Members.FirstOrDefaultAsync(x => x.MemberId == id);
             return memberDetails;
         }
 
@@ -73,9 +71,9 @@ namespace LibrarySystem.Repository.MemberRepository
             throw new NotImplementedException();
         }
 
-        public bool RenewMembership(int memberId, int days)
+        public async  Task<bool> RenewMembership(int memberId, int days)
         {
-            var member = _context.Members.Find( memberId);
+            var member =  await _context.Members.FindAsync( memberId);
 
             if (member == null)
             {
@@ -84,7 +82,7 @@ namespace LibrarySystem.Repository.MemberRepository
 
             member.ExpirationDate = member.ExpirationDate.AddDays(days);
 
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
 
             return true;
         }
@@ -98,5 +96,7 @@ namespace LibrarySystem.Repository.MemberRepository
 
             return memberList;
         }
+
+        
     }
 }

@@ -1,8 +1,12 @@
 ﻿@model LibrarySystem.Shared.MemberData.MemberDetails
 
-<form asp-controller="Member" asp-action="RenewMembership" method="post">
+<form asp-controller="Member"
+      asp-action="RenewMembership"
+      method="post">
 
-    <input type="hidden" asp-for="MemberId" />
+    <input type="hidden"
+           name="memberId"
+           value="@Model.MemberId" />
 
     <div>
         <label>Member Name</label>
@@ -11,9 +15,14 @@
 
     <div>
         <label>Enter Days</label>
-        <input type="number" name="days" />
+        <input type="number"
+               name="days"
+               class="form-control" />
     </div>
 
-    <button type="submit">Renew Membership</button>
+    <button type="submit"
+            class="btn btn-primary">
+        Renew Membership
+    </button>
 
 </form>

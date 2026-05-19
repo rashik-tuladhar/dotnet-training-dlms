@@ -9,10 +9,10 @@ namespace LibrarySystem.Repository.MemberRepository
     public interface IMemberRepository
     {
        Task<bool> AddMembers(Member member);
-        Task<bool> EditMembers(MemberDetails member);
+        Task<bool> EditMembers(Member member);
         bool DeleteMembers(int memberId);
          Task<List<Member>> ViewAllList();
-        bool RenewMembership(int memberId, int days);
+        Task<bool> RenewMembership(int memberId, int days);
         string MembershipDuration(int memberId);
         string MembershipType(int memberId);
         Task<Member> GetMembernDetails (int id);

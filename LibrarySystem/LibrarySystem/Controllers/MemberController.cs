@@ -28,6 +28,7 @@ namespace LibrarySystem.Controllers
 
         [HttpPost]
         public async Task<IActionResult> AddMembers(MemberDetails member)
+        
         {
 
             if (ModelState.IsValid)
@@ -47,7 +48,7 @@ namespace LibrarySystem.Controllers
                     TempData["isSuccess"] = "No";
                     TempData["Message"] = "Failed to add Member";
                 }
-                return RedirectToAction("Addmembers");
+                return RedirectToAction("AddMembers");
             }
             else
             {
@@ -63,6 +64,8 @@ namespace LibrarySystem.Controllers
 
 
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditMembers(MemberDetails member)

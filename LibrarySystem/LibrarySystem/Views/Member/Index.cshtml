@@ -1,76 +1,142 @@
 ﻿@using LibrarySystem.Shared.MemberData
 @model List<MemberDetails>
-<h1>Hello Member Index</h1>
 
-<a asp-controller="Member" asp-action="AddMembers" class="btn btn-primary">Add Member</a>
-@* <a asp-controller="Member" asp-action="RenewMembership" calss="btn btn-primary">Renew MemberShip</a>
- *@
 @{
-    string tempDataMessage = TempData["isSuccess"] as string;
-    if (tempDataMessage == "YES")
-    {
-        <span class="text-success">@TempData["Message"]</span>
-    }
-    else
-    {
-        <span class="text-danger">@TempData["Message"]</span>
-    }
+    ViewData["Title"] = "Member List";
 }
 
-@* <form method="get" asp-controller="Member" asp-action="Index" >
-    <br> <div class="row mb-3">
-        <div class="col-md-4">
-            <input type="text"
-                   name="searchText"
-                   value="@Context.Request.Query["searchText"]"
-                   class="form-control" 
-                   placeholder="Search publication name..." />
-        </div>
+<div class="container mt-4">
 
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary">
-                Search
-            </button>
-        </div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">
+            Member Management
+        </h2>
+
+        <a asp-controller="Member"
+               asp-action="AddMembers"
+               class="btn btn-success">
+            + Add Member
+        </a>
     </div>
-</form> *@
 
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>SN</th>
-                <th>Member Id</th>
-                <th>Member Name</th>
-                <th>Member Address</th>
-                <th>Member Join Date</th>
-                <th>Member Expiry Date</th>
-                <th>Action</th>
+    @{
 
-                <th>RenewMembership</th>
+        string tempDataMessage = TempData["isSuccess"] as string;
 
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                int i = 1;
-                foreach (var member in Model)
-                {
-                    <tr>
-                        <td>@i</td>
-                        <td>@member.MemberId</td>
-                        <td>@member.MemberName</td>
-                        <td>@member.Address</td>
-                        <td>@member.JoinedDate</td>
-                        <td>@member.ExpirationDate</td>
+        if (tempDataMessage == "YES")
+        {
+            <div class="alert alert-success">
+                @TempData["Message"]
+            </div>
+        }
+        else if (tempDataMessage == "NO")
+        {
+            <div class="alert alert-danger">
+                @TempData["Message"]
+            </div>
+        }
+    }
 
-                        <td><a class="btn btn-primary btn-sm" asp-controller="Member" asp-action="EditMembers" asp-route-id="@member.MemberId">Edit</a></td>
-                        <td><a class="btn btn-primary btn-sm" asp-controller="Member" asp-action="RenewMembership" asp-route-id="@member.MemberId">Update</a></td>
+    <div class="card shadow border-0">
 
-                    </tr>
-                    i++;
-                }
-            }
-        </tbody>
-    </table>
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover table-bordered align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+                            <th>SN</th>
+                            <th>Member ID</th>
+                            <th>Member Name</th>
+                            <th>Address</th>
+                            <th>Join Date</th>
+                            <th>Expiry Date</th>
+                            <th>Duration</th>
+                            <th width="180">Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @{
+
+                            int i = 1;
+
+                            foreach (var member in Model)
+                            {
+                                <tr>
+
+                                    <td>@i</td>
+
+                                    <td>
+                                        <span class="badge bg-secondary">
+                                            @member.MemberId
+                                        </span>
+                                    </td>
+
+                                    <td class="fw-semibold">
+                                        @member.MemberName
+                                    </td>
+
+                                    <td>
+                                        @member.Address
+                                    </td>
+
+                                    <td>
+                                        @member.JoinedDate
+                                    </td>
+
+                                    <td>
+                                        @member.ExpirationDate
+                                    </td>
+
+                                    <td>
+                                        <span class="badge bg-info text-dark">
+                                            @member.MembershipDuration
+                                        </span>
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex gap-2">
+
+                                            <a class="btn btn-primary btn-sm"
+                                                   asp-controller="Member"
+                                                   asp-action="EditMembers"
+                                                   asp-route-id="@member.MemberId">
+                                                Edit
+                                            </a>
+
+                                            <a class="btn btn-warning btn-sm text-dark"
+                                                   asp-controller="Member"
+                                                   asp-action="RenewMembership"
+                                                   asp-route-id="@member.MemberId">
+                                                Renew
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                i++;
+                            }
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>

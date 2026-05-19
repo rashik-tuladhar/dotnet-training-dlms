@@ -1,4 +1,5 @@
-﻿using LibrarySystem.Repository.Data;
+﻿
+using LibrarySystem.Repository.Data;
 using LibrarySystem.Repository.MemberRepository;
 using LibrarySystem.Repository.Models;
 using LibrarySystem.Shared.MemberData;
@@ -47,7 +48,20 @@ namespace LibrarySystem.Business.MemberBusiness
 
         public async Task<bool> EditMembers(MemberDetails member)
         {
-            return await _memberRepository.EditMembers(member);
+            var entity = new Repository.Models.Member
+            {
+                MemberId = member.MemberId,
+                MemberName = member.MemberName,
+                Phone = member.Phone,
+                Address = member.Address,
+                Email = member.Email,
+                JoinedDate = member.JoinedDate,
+                ExpirationDate = member.ExpirationDate,
+                MembershipType = member.MembershipType,
+                Status = member.Status
+            };
+
+            return await _memberRepository.EditMembers(entity);
         }
 
 
@@ -94,6 +108,9 @@ namespace LibrarySystem.Business.MemberBusiness
             var members = await _memberRepository.ViewAllList();
             foreach (var member in members)
             {
+
+                DateTime today = DateTime.Now;
+                var days = (member.ExpirationDate - today).Days;
                 memberList.Add(new MemberDetails
                 {
                     MemberId = member.MemberId,
@@ -106,7 +123,11 @@ namespace LibrarySystem.Business.MemberBusiness
                     MembershipType = member.MembershipType,
                     Status = member.Status,
                     CreatedDate = member.CreatedDate,
-                    CreatedBy = member.CreatedBy
+                    CreatedBy = member.CreatedBy,
+MembershipDuration =
+        days < 0
+        ? "Expired"
+        : days + " Days Remaining"
                 });
             }
 
@@ -115,7 +136,7 @@ namespace LibrarySystem.Business.MemberBusiness
 
         public async Task<bool> RenewMembership(int memberId,int days)
         {
-            return _memberRepository.RenewMembership(memberId, days);
+            return  await _memberRepository.RenewMembership(memberId, days);
         }
     }
 }
