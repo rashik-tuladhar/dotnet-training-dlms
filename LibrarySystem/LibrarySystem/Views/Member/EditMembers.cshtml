@@ -2,8 +2,9 @@
 
 
 <h1>Edit Member</h1>
-<form asp-controller="Member" asp-action="EditMembers" method="post">
-
+<form asp-controller="Member" asp-action="EditMembers"  method="post">
+@*     <form asp-controller="Member" asp-action="EditMembers" asp-route-id="" method="post">
+ *@
     <div>
         <label asp-for="MemberName"></label>
         <input asp-for="MemberName" class="form-control" />

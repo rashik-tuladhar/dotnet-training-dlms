@@ -23,6 +23,6 @@ namespace LibrarySystem.Shared.MemberData
         public DateTime ModifiedDate { get; set; }
         public string? ModifiedBy { get; set; }
         public int days { get; set; }
-        public string MembershipDuration { get; set; }
+        public string? MembershipDuration { get; set; }
     }
 }
