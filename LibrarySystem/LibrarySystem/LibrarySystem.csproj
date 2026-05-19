@@ -38,4 +38,8 @@
     <ProjectReference Include="..\LibrarySystem.Repository\LibrarySystem.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Member\" />
+  </ItemGroup>
+
 </Project>
