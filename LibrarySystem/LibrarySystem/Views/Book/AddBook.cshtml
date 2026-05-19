@@ -14,6 +14,11 @@
         <span asp-validation-for="Author" class="text-danger"></span>
         </div>
     <div class="form-group">
+        <label asp-for="HelloWorld">Confirm Author</label>
+        <input type="text" asp-for="HelloWorld" placeholder="Confirm Author Name" class="form-control" />
+        <span asp-validation-for="HelloWorld" class="text-danger"></span>
+    </div>
+    <div class="form-group">
         <label asp-for="Publication">Publication</label>
         <input type="text" asp-for="Publication" placeholder="Enter Publication Name" class="form-control" />
         <span asp-validation-for="Publication" class="text-danger"></span>

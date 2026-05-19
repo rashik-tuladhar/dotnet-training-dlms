@@ -1,6 +1,4 @@
 ﻿using LibrarySystem.Business.BookBusiness;
-using LibrarySystem.Dtos;
-using LibrarySystem.Repository.Models;
 using LibrarySystem.Shared.BookData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -87,36 +85,6 @@ namespace LibrarySystem.Controllers
             {
                 return View(book);
             }
-        }
-
-        public async Task<IActionResult> FormFields()
-        {
-            FormFields formFields = new FormFields();
-            var bookList = await _bookBusiness.GetBookList();
-            formFields.BookList = bookList.Select(b => new SelectListItem
-            {
-                Value = b.BookId.ToString(),
-                Text = b.Name
-            }).ToList();
-
-            var hobbies = new List<Hobbies>
-            {
-                new Hobbies { Name = "Reading", IsSelected= true },
-                new Hobbies { Name = "Writing" },
-                new Hobbies { Name = "Traveling" },
-                new Hobbies { Name = "Cooking", IsSelected = true }
-            };
-
-            formFields.Hobbies = hobbies;
-
-            return View(formFields);
-        }
-
-        [HttpPost]
-        public IActionResult FormFields(FormFields formFields)
-        {
-            var hobbiesListSelected = formFields.Hobbies.Where(h => h.IsSelected).Select(h => h.Name).ToList();
-            return View(formFields);
         }
     }
 }
