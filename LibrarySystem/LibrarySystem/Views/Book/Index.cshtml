@@ -1,11 +1,20 @@
 ﻿@using LibrarySystem.Shared.BookData
 @model List<BookDetails>
+@section Styles {
+    <style>
+        .table-responsive {
+            margin-top: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.8/css/dataTables.dataTables.min.css" asp-append-version="true" />
+}
+
 <h1>Hello Book Index</h1>
 <a asp-controller="Book" asp-action="AddBook" class="btn btn-primary">Add Books</a>
 
 @{
     string tempDataMessage = TempData["isSuccess"] as string;
-    if(tempDataMessage == "YES")
+    if (tempDataMessage == "YES")
     {
         <span class="text-success">@TempData["Message"]</span>
     }
@@ -17,7 +26,7 @@
 
 
 <div class="table-responsive">
-    <table class="table">
+    <table class="table" id="bookTable">
         <thead>
             <tr>
                 <th>SN</th>
@@ -25,13 +34,14 @@
                 <th>Book Name</th>
                 <th>Book Author</th>
                 <th>Book Publication</th>
+                <th>Book Status</th>
                 <th>Operations</th>
             </tr>
         </thead>
         <tbody>
             @{
                 int i = 1;
-                foreach(var book in Model)
+                foreach (var book in Model)
                 {
                     <tr>
                         <td>@i</td>
@@ -39,7 +49,22 @@
                         <td>@book.Name</td>
                         <td>@book.Author</td>
                         <td>@book.Publication</td>
-                        <td><a class="btn btn-primary btn-sm" asp-controller="Book" asp-action="EditBook" asp-route-id="@book.BookId">Edit</a></td>
+                        <td>
+                            @{
+                                if (book.Status == "A")
+                                {
+                                    <span class="badge bg-success">Available</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Not Available</span>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" asp-controller="Book" asp-action="EditBook" asp-route-id="@book.BookId">Edit</a>
+                            <a class="btn btn-warning btn-sm" asp-controller="Book" asp-action="UpdateStatus" asp-route-id="@book.BookId" onclick="return confirm('Are you sure you want to change the status?')">Change Status</a>
+                        </td>
                     </tr>
                     i++;
                 }
@@ -47,3 +72,10 @@
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js" asp-append-version="true"></script>
+    <script>
+        $('#bookTable').DataTable();
+    </script>
+}

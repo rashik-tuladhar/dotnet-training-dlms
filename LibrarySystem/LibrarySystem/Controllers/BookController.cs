@@ -1,7 +1,6 @@
 ﻿using LibrarySystem.Business.BookBusiness;
 using LibrarySystem.Shared.BookData;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LibrarySystem.Controllers
 {
@@ -31,10 +30,7 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                //if (book.Name != "hello")
-                //{
-                //    ModelState.AddModelError("Name", "Hello custom error");
-                //}
+                book.User = "admin";
                 bool isAdded = await _bookBusiness.AddBook(book);
                 if (isAdded)
                 {
@@ -62,6 +58,24 @@ namespace LibrarySystem.Controllers
             return View(bookDetails);
         }
 
+        public async Task<IActionResult> UpdateStatus(string id)
+        {
+            var bookId = Convert.ToInt32(id);
+            var user = "admin";
+            var isUpdated = await _bookBusiness.UpdateStatus(bookId,user);
+            if (isUpdated)
+            {
+                TempData["isSuccess"] = "YES";
+                TempData["Message"] = "Book status updated successfully";
+            }
+            else
+            {
+                TempData["isSuccess"] = "YES";
+                TempData["Message"] = "Failed to update book status";
+            }
+            return RedirectToAction("Index");
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -69,9 +83,11 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                book.User = "admin";
                 var details = await _bookBusiness.EditBooks(book);
                 if (details)
                 {
+                    TempData["isSuccess"] = "YES";
                     TempData["Message"] = "Book details updated successfully";
                 }
                 else

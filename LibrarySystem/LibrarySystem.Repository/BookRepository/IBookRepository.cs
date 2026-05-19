@@ -9,5 +9,6 @@ namespace LibrarySystem.Repository.BookRepository
         Task<bool> EditBooks(BookDetails book);
         Task<Book> GetBookDetails(int id);
         Task<List<Book>> GetBookList();
+        Task<bool> UpdateStatus(int bookId, string user);
     }
 }

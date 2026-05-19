@@ -18,12 +18,36 @@
         <input type="text" asp-for="Publication" placeholder="Enter Publication Name" class="form-control" />
         <span asp-validation-for="Publication" class="text-danger"></span>
     </div>
-    <br>
+
+    <div class="form-group">
+        <label asp-for="Category">Category</label>
+        <input type="text" asp-for="Category" placeholder="Enter Category" class="form-control" />
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Isbn">ISBN</label>
+        <input type="text" asp-for="Isbn" placeholder="Enter ISBN" class="form-control" />
+        <span asp-validation-for="Isbn" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TotalCopies">Total Copies</label>
+        <input type="number" asp-for="TotalCopies" placeholder="Enter Total Copies" class="form-control" />
+        <span asp-validation-for="TotalCopies" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AvailableCopies">Available Copies</label>
+        <input type="number" asp-for="AvailableCopies" placeholder="Enter Available Copies" class="form-control" />
+        <span asp-validation-for="AvailableCopies" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Edition">Edition</label>
+        <input type="text" asp-for="Edition" placeholder="Enter Edition" class="form-control" />
+        <span asp-validation-for="Edition" class="text-danger"></span>
+    </div>
     <div class="form-group">
         <input type="hidden" asp-for="BookId" />
         <input type="submit" value="Submit" class="btn btn-success" />
     </div>
-    
 </form>
 
 

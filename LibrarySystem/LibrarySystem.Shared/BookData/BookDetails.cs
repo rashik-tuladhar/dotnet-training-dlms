@@ -1,19 +1,35 @@
-﻿using LibrarySystem.Shared.Attributes;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LibrarySystem.Shared.BookData
 {
     public class BookDetails
     {
         public int BookId { get; set; }
-        [Required(ErrorMessage = "Please enter the name field.")]
-        public string? Name { get; set; }
         [Required]
-        public string? Author { get; set; }
+        [StringLength(500)]
+        public string Name { get; set; }
         [Required]
-        public string? Publication { get; set; }
-        [CompareValues("Author",
-                ErrorMessage = "Author and Confirm Author must match.")]
-        public string HelloWorld { get; set; }
+        [StringLength(500)]
+        public string Author { get; set; }
+        [Required]
+        [StringLength(500)]
+        public string Publication { get; set; }
+        [Required]
+        [StringLength(500)]
+        public string Category { get; set; }
+        [Required]
+        [StringLength(200)]
+        public string Isbn { get; set; }
+        [Required]
+        [Range(1, 50)]
+        public int TotalCopies { get; set; }
+        [Required]
+        [Range(1, 50)]
+        public int AvailableCopies { get; set; }
+        [Required]
+        [StringLength(500)]
+        public string Edition { get; set; }
+        public string? User { get; set; }
+        public string? Status { get; set; }
     }
 }

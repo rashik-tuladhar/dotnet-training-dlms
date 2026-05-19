@@ -8,5 +8,6 @@ namespace LibrarySystem.Business.BookBusiness
         Task<bool> EditBooks(BookDetails book);
         Task<BookDetails> GetBookDetails(int id);
         Task<List<BookDetails>> GetBookList();
+        Task<bool> UpdateStatus(int bookId, string user);
     }
 }
