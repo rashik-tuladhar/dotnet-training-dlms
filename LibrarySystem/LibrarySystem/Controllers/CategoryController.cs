@@ -15,8 +15,7 @@ namespace LibrarySystem.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //var categoryList = await _categoryBusiness.GetCategoryList();
-            List<CategoryDetails> categoryList = new List<CategoryDetails>();
+            var categoryList = await _categoryBusiness.GetList();
             return View(categoryList);
         }
 

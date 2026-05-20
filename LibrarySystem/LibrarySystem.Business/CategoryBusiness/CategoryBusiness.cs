@@ -35,6 +35,7 @@ namespace LibrarySystem.Business.CategoryBusiness
             var categoryData = await _categoryRepository.GetDetails(id);
             var categoryDetails = new CategoryDetails
             {
+                CategoryId = categoryData.CategoryId,
                 Name = categoryData.Name,
                 Description = categoryData.Description,
                 Status = categoryData.Status
