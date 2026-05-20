@@ -1,5 +1,5 @@
-﻿@using LibrarySystem.Shared.BookData
-@model List<BookDetails>
+﻿@using LibrarySystem.Shared.PublicationData
+@model List<PublicationDetails>
 @section Styles {
     <style>
         .table-responsive {
@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="//cdn.datatables.net/2.3.8/css/dataTables.dataTables.min.css" asp-append-version="true" />
 }
 
-<h1>Hello Book Index</h1>
+<h1>Publication Management</h1>
 
 @{
     string tempDataMessage = TempData["isSuccess"] as string;
@@ -26,35 +26,33 @@
     }
 }
 
-<a asp-controller="Book" asp-action="AddBook" class="btn btn-primary">Add Books</a>
+<a asp-controller="Publication" asp-action="Add" class="btn btn-primary">Add Publication</a>
 
 <div class="table-responsive">
-    <table class="table" id="bookTable">
+    <table class="table" id="categoryTable">
         <thead>
             <tr>
                 <th>SN</th>
-                <th>Book Id</th>
-                <th>Book Name</th>
-                <th>Book Author</th>
-                <th>Book Publication</th>
-                <th>Book Status</th>
+                <th>Category Id</th>
+                <th>Category Name</th>
+                <th>Category Description</th>
+                <th>Category Status</th>
                 <th>Operations</th>
             </tr>
         </thead>
-        <tbody>
+        @* <tbody>
             @{
                 int i = 1;
-                foreach (var book in Model)
+                foreach (var category in Model)
                 {
                     <tr>
                         <td>@i</td>
-                        <td>@book.BookId</td>
-                        <td>@book.Name</td>
-                        <td>@book.Author</td>
-                        <td>@book.Publication</td>
+                        <td>@category.CategoryId</td>
+                        <td>@category.CategoryName</td>
+                        <td>@category.CategoryDescription</td>
                         <td>
                             @{
-                                if (book.Status == "A")
+                                if (category.Status == "A")
                                 {
                                     <span class="badge bg-success">Available</span>
                                 }
@@ -65,20 +63,20 @@
                             }
                         </td>
                         <td>
-                            <a class="btn btn-primary btn-sm" asp-controller="Book" asp-action="EditBook" asp-route-id="@book.BookId">Edit</a>
-                            <a class="btn btn-warning btn-sm" asp-controller="Book" asp-action="UpdateStatus" asp-route-id="@book.BookId" onclick="return confirm('Are you sure you want to change the status?')">Change Status</a>
+                            <a class="btn btn-primary btn-sm" asp-controller="Publication" asp-action="Edit" asp-route-id="@category.PublicationId">Edit</a>
+                            <a class="btn btn-warning btn-sm" asp-controller="Publication" asp-action="UpdateStatus" asp-route-id="@category.CategoryId" onclick="return confirm('Are you sure you want to change the status?')">Change Status</a>
                         </td>
                     </tr>
                     i++;
                 }
             }
-        </tbody>
+        </tbody> *@
     </table>
 </div>
 
 @section Scripts {
     <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js" asp-append-version="true"></script>
     <script>
-        $('#bookTable').DataTable();
+        $('#categoryTable').DataTable();
     </script>
 }
