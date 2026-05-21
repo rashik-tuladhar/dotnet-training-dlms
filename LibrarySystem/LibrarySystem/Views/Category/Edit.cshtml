@@ -6,7 +6,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Name">Category Name</label>
-                <input type="text" asp-for="Name" placeholder="Enter Category Name" class="form-control" />
+                <input type="text" asp-for="Name" placeholder="Enter Category Name" class="form-control"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-       
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -32,14 +32,14 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
-        
+
     </div>
 
     <div class="row">
         <div class="col-md-12" style="margin-top:15px;">
             <div class="form-group">
-                <input type="hidden" asp-for="CategoryId" />
-                <input type="submit" value="Submit" class="btn btn-success" />
+                <input type="hidden" asp-for="CategoryId"/>
+                <input type="submit" value="Submit" class="btn btn-success"/>
             </div>
         </div>
     </div>
@@ -49,5 +49,10 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+            $(document).ready(function () {
+                $("select.form-control").select2({width: '100%'});
+            });
+        </script>
     }
 }
