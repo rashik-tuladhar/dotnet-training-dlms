@@ -48,7 +48,19 @@
                 {
                     <tr>
                         <td>@i</td>
-                        <td>@author.FirstName + " " + @author.MiddleName + " " + @author.LastName</td>
+                        <td>@author.AuthorId</td>
+                        <td>
+                            @{
+                                var fullName = string.Concat(
+                                    author.FirstName,
+                                    " ",
+                                    string.IsNullOrEmpty(author.MiddleName) ? string.Empty : author.MiddleName + " ",
+                                    " ",
+                                    author.LastName
+                                );
+                            }
+                            @fullName
+                        </td>
                         <td>@author.Bio</td>
                         <td>@author.DateOfBirth</td>
                         <td>
