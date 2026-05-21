@@ -13,6 +13,7 @@ namespace LibrarySystem.Repository.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<Publication> Publication { get; set; }
+        public DbSet<Author> Author { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
