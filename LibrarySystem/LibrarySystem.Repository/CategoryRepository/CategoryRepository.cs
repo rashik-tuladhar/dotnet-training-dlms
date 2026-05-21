@@ -40,6 +40,7 @@ namespace LibrarySystem.Repository.CategoryRepository
             {
                 details.Name = category.Name;
                 details.Description = category.Description;
+                details.Status = category.Status;
                 details.ModifiedBy = category.User;
                 details.ModifiedDate = DateTime.UtcNow;
                 var result = await _context.SaveChangesAsync();

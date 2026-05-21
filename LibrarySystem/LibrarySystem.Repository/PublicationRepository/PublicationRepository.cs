@@ -38,6 +38,13 @@ namespace LibrarySystem.Repository.PublicationRepository
             var details = _context.Publication.FirstOrDefault(x => x.PublicationId == publication.PublicationId);
             if (details != null)
             {
+                details.PublicationName = publication.PublicationName;
+                details.PublicationAddress = publication.PublicationAddress;
+                details.ContactPersonName = publication.ContactPersonName;
+                details.ContactPhone = publication.ContactPhone;
+                details.PublicationEmail = publication.PublicationEmail;
+                details.PublicationWebsite = publication.PublicationWebsite;
+                details.Status = publication.Status;
                 details.ModifiedBy = publication.User;
                 details.ModifiedDate = DateTime.UtcNow;
                 var result = await _context.SaveChangesAsync();

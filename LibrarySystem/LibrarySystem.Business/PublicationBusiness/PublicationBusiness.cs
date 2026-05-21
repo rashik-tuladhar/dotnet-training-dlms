@@ -24,6 +24,7 @@ namespace LibrarySystem.Business.PublicationBusiness
                 ContactPersonName = publication.ContactPersonName,
                 ContactPhone = publication.ContactPhone,
                 PublicationWebsite = publication.PublicationWebsite,
+                Status = publication.Status,
                 CreatedBy = publication.User,
                 CreatedDate = DateTime.Now
             };

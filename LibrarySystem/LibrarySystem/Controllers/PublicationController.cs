@@ -15,9 +15,8 @@ namespace LibrarySystem.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //var categoryList = await _publicationBusiness.GetCategoryList();
-            List<PublicationDetails> categoryList = new List<PublicationDetails>();
-            return View(categoryList);
+            var publicationList = await _publicationBusiness.GetList();
+            return View(publicationList);
         }
 
         public IActionResult Add()
@@ -27,12 +26,12 @@ namespace LibrarySystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(PublicationDetails category)
+        public async Task<IActionResult> Add(PublicationDetails publication)
         {
             if (ModelState.IsValid)
             {
-                category.User = "admin";
-                bool isAdded = await _publicationBusiness.Add(category);
+                publication.User = "admin";
+                bool isAdded = await _publicationBusiness.Add(publication);
                 if (isAdded)
                 {
                     TempData["isSuccess"] = "YES";
@@ -47,58 +46,58 @@ namespace LibrarySystem.Controllers
             }
             else
             {
-                return View(category);
+                return View(publication);
             }
         }
 
 
         public async Task<IActionResult> Edit(string id)
         {
-            var categoryId = Convert.ToInt32(id);
-            var categoryDetails = await _publicationBusiness.GetDetails(categoryId);
-            return View(categoryDetails);
+            var publicationId = Convert.ToInt32(id);
+            var publicationDetails = await _publicationBusiness.GetDetails(publicationId);
+            return View(publicationDetails);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(PublicationDetails category)
+        public async Task<IActionResult> Edit(PublicationDetails publication)
         {
             if (ModelState.IsValid)
             {
-                category.User = "admin";
-                var details = await _publicationBusiness.Edit(category);
+                publication.User = "admin";
+                var details = await _publicationBusiness.Edit(publication);
                 if (details)
                 {
                     TempData["isSuccess"] = "YES";
-                    TempData["Message"] = "Category details updated successfully";
+                    TempData["Message"] = "Publication details updated successfully";
                 }
                 else
                 {
                     TempData["isSuccess"] = "NO";
-                    TempData["Message"] = "Failed to update category details";
+                    TempData["Message"] = "Failed to update publication details";
                 }
                 return RedirectToAction("Index");
             }
             else
             {
-                return View(category);
+                return View(publication);
             }
         }
 
         public async Task<IActionResult> UpdateStatus(string id)
         {
-            var categoryId = Convert.ToInt32(id);
+            var publicationId = Convert.ToInt32(id);
             var user = "admin";
-            var isUpdated = await _publicationBusiness.UpdateStatus(categoryId,user);
+            var isUpdated = await _publicationBusiness.UpdateStatus(publicationId,user);
             if (isUpdated)
             {
                 TempData["isSuccess"] = "YES";
-                TempData["Message"] = "Category status updated successfully";
+                TempData["Message"] = "Publication status updated successfully";
             }
             else
             {
                 TempData["isSuccess"] = "YES";
-                TempData["Message"] = "Failed to update category status";
+                TempData["Message"] = "Failed to update publication status";
             }
             return RedirectToAction("Index");
         }

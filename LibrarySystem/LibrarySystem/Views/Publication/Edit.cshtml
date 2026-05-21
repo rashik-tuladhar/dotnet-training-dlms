@@ -1,48 +1,85 @@
 ﻿@using LibrarySystem.Shared.PublicationData
-@model List<PublicationDetails>
+@model PublicationDetails
 <h1>Edit Publication</h1>
-@* <form asp-controller="Category" asp-action="EditCategory" method="post">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="CategoryName">Category Name</label>
-                <input type="text" asp-for="CategoryName" placeholder="Enter Category Name" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
+<div class="container">
+    <form asp-controller="Publication" asp-action="Edit" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="PublicationName">Publication Name</label>
+                    <input type="text" asp-for="PublicationName" placeholder="Enter Publication Name" class="form-control" />
+                    <span asp-validation-for="PublicationName" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="CategoryDescription">Category Description</label>
-                <textarea asp-for="CategoryDescription"></textarea>
-                <span asp-validation-for="CategoryDescription" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
 
-       
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="Status">Category Status</label>
-                <select asp-for="Status" class="form-control">
-                    <option value="">Select Status</option>
-                    <option value="A">Is Active</option>
-                    <option value="N">Not Active</option>
-                </select>
-                <span asp-validation-for="Status" class="text-danger"></span>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="PublicationAddress">Publication Address</label>
+                    <input type="text" asp-for="PublicationAddress" placeholder="Enter Publication Address" class="form-control" />
+                    <span asp-validation-for="PublicationAddress" class="text-danger"></span>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="row">
 
-    <div class="row">
-        <div class="col-md-12" style="margin-top:15px;">
-            <div class="form-group">
-                <input type="hidden" asp-for="CategoryId" />
-                <input type="submit" value="Submit" class="btn btn-success" />
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="ContactPersonName">Contact Person Name</label>
+                    <input type="text" asp-for="ContactPersonName" placeholder="Enter Contact Person Name" class="form-control" />
+                    <span asp-validation-for="ContactPersonName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="ContactPhone">Contact Phone</label>
+                    <input type="text" asp-for="ContactPhone" placeholder="Enter Contact Phone" class="form-control" />
+                    <span asp-validation-for="ContactPhone" class="text-danger"></span>
+                </div>
             </div>
         </div>
-    </div>
-</form> *@
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="PublicationWebsite">Publication Website</label>
+                    <input type="text" asp-for="PublicationWebsite" placeholder="Enter Publication Website" class="form-control" />
+                    <span asp-validation-for="PublicationWebsite" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="PublicationEmail">Publication Email</label>
+                    <input type="text" asp-for="PublicationEmail" placeholder="Enter Publication Email" class="form-control" />
+                    <span asp-validation-for="PublicationEmail" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Status">Publication Status</label>
+                    <select asp-for="Status" class="form-control">
+                        <option value="">Select Status</option>
+                        <option value="A">Is Active</option>
+                        <option value="N">Not Active</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="margin-top:15px;">
+                <div class="form-group">
+                    <input type="hidden" asp-for="PublicationId"/>
+                    <input type="submit" value="Submit" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
 
 @section Scripts {
