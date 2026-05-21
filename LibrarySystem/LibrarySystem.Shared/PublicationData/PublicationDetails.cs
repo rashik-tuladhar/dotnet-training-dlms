@@ -4,7 +4,6 @@ namespace LibrarySystem.Shared.PublicationData
 {
     public class PublicationDetails
     {
-        [Key]
         public int PublicationId { get; set; }
         [Required]
         public string PublicationName { get; set; }
