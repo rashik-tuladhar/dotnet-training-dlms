@@ -14,6 +14,7 @@ namespace LibrarySystem.Repository.Data
         public DbSet<Category> Category { get; set; }
         public DbSet<Publication> Publication { get; set; }
         public DbSet<Author> Author { get; set; }
+        public DbSet<Member> Member { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

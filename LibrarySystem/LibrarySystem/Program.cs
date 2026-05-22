@@ -1,11 +1,13 @@
 using LibrarySystem.Business.AuthorBusiness;
 using LibrarySystem.Business.BookBusiness;
 using LibrarySystem.Business.CategoryBusiness;
+using LibrarySystem.Business.MemberBusiness;
 using LibrarySystem.Business.PublicationBusiness;
 using LibrarySystem.Repository.AuthorRepository;
 using LibrarySystem.Repository.BookRepository;
 using LibrarySystem.Repository.CategoryRepository;
 using LibrarySystem.Repository.Data;
+using LibrarySystem.Repository.MemberRepository;
 using LibrarySystem.Repository.PublicationRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +31,10 @@ public partial class Program
 
         builder.Services.AddScoped<IAuthorBusiness, AuthorBusiness>();
         builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+        
+        
+        builder.Services.AddScoped<IMemberBusiness, MemberBusiness>();
+        builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 

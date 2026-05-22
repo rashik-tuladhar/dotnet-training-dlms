@@ -1,0 +1,55 @@
+﻿@using LibrarySystem.Shared.AuthorData
+@model List<AuthorDetails>
+@section Styles {
+    <style>
+        .table-responsive {
+            margin-top: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.8/css/dataTables.dataTables.min.css" asp-append-version="true" />
+}
+
+<h1>Borrow Management</h1>
+
+@{
+    string tempDataMessage = TempData["isSuccess"] as string;
+    if(!string.IsNullOrEmpty(tempDataMessage))
+    {
+        if (tempDataMessage == "YES")
+        {
+            <div class="alert alert-success">@TempData["Message"]</div>
+        }
+        else
+        {
+            <div class="alert alert-danger">@TempData["Message"]</div>
+        }
+    }
+}
+
+<a asp-controller="Borrow" asp-action="Add" class="btn btn-primary">Borrow Book</a>
+
+<div class="table-responsive">
+    <table class="table" id="borrowTable">
+        <thead>
+        <tr>
+            <th>SN</th>
+            <th>Author Id</th>
+            <th>Author Name</th>
+            <th>Bio</th>
+            <th>Date of Birth</th>
+            <th>Status</th>
+            <th>Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js" asp-append-version="true"></script>
+    <script>
+        $('#borrowTable').DataTable();
+    </script>
+}
