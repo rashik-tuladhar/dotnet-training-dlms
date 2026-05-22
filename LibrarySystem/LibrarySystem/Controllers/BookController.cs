@@ -1,16 +1,20 @@
-﻿using LibrarySystem.Business.BookBusiness;
+﻿using LibrarySystem.Business.AuthorBusiness;
+using LibrarySystem.Business.BookBusiness;
 using LibrarySystem.Shared.BookData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LibrarySystem.Controllers
 {
     public class BookController : Controller
     {
         private readonly IBookBusiness _bookBusiness;
+        private readonly IAuthorBusiness _authorBusiness;
 
-        public BookController(IBookBusiness bookBusiness)
+        public BookController(IBookBusiness bookBusiness, IAuthorBusiness authorBusiness)
         {
             _bookBusiness = bookBusiness;
+            _authorBusiness = authorBusiness;
         }
 
         public async Task<IActionResult> Index()
@@ -19,9 +23,16 @@ namespace LibrarySystem.Controllers
             return View(bookList);
         }
 
-        public IActionResult AddBook()
+        public async Task<IActionResult> AddBook()
         {
-            return View();
+            BookDetails bookDetails = new BookDetails();
+            var authorList = await _authorBusiness.GetList();
+            bookDetails.AuthorList = authorList.Select(a => new SelectListItem
+            {
+                Value = a.AuthorId.ToString(),
+                Text = a.FirstName + " " + a.LastName
+            }).ToList();
+            return View(bookDetails);
         }
 
         [HttpPost]
@@ -55,6 +66,13 @@ namespace LibrarySystem.Controllers
         {
             var bookId = Convert.ToInt32(id);
             var bookDetails = await _bookBusiness.GetBookDetails(bookId);
+            var authorList = await _authorBusiness.GetList();
+            bookDetails.AuthorList = authorList.Select(a => new SelectListItem
+            {
+                Value = a.AuthorId.ToString(),
+                Text = a.FirstName + " " + a.LastName,
+                Selected = a.AuthorId.ToString() == bookDetails.Author
+            }).ToList();
             return View(bookDetails);
         }
 

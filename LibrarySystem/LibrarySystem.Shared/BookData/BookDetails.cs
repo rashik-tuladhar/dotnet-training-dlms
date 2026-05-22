@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LibrarySystem.Shared.BookData
 {
@@ -11,6 +12,8 @@ namespace LibrarySystem.Shared.BookData
         [Required]
         [StringLength(500)]
         public string Author { get; set; }
+        
+        public List<SelectListItem> AuthorList { get; set; } 
         [Required]
         [StringLength(500)]
         public string Publication { get; set; }

@@ -20,10 +20,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Author">Author Name<span class="text-danger">*</span></label>
-                    <input type="text" asp-for="Author" placeholder="Enter Author Name" class="form-control"/>
+                    <select asp-for="Author" asp-items="Model.AuthorList" class="form-control">
+                        <option value="">Select Author</option>
+                    </select>
                     <span asp-validation-for="Author" class="text-danger"></span>
                 </div>
             </div>
+            
         </div>
 
         <div class="row">
