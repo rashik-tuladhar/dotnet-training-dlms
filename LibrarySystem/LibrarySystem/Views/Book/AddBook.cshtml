@@ -12,14 +12,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="Name">Book Name</label>
+                    <label asp-for="Name">Book Name<span class="text-danger">*</span></label>
                     <input type="text" asp-for="Name" placeholder="Enter Book Name" class="form-control"/>
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="Author">Author Name</label>
+                    <label asp-for="Author">Author Name<span class="text-danger">*</span></label>
                     <input type="text" asp-for="Author" placeholder="Enter Author Name" class="form-control"/>
                     <span asp-validation-for="Author" class="text-danger"></span>
                 </div>
@@ -29,14 +29,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="Publication">Publication</label>
+                    <label asp-for="Publication">Publication<span class="text-danger">*</span></label>
                     <input type="text" asp-for="Publication" placeholder="Enter Publication Name" class="form-control"/>
                     <span asp-validation-for="Publication" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="Category">Category</label>
+                    <label asp-for="Category">Category<span class="text-danger">*</span></label>
                     <input type="text" asp-for="Category" placeholder="Enter Category" class="form-control"/>
                     <span asp-validation-for="Category" class="text-danger"></span>
                 </div>
@@ -47,14 +47,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="Isbn">ISBN</label>
+                    <label asp-for="Isbn">ISBN<span class="text-danger">*</span></label>
                     <input type="text" asp-for="Isbn" placeholder="Enter ISBN" class="form-control"/>
                     <span asp-validation-for="Isbn" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="TotalCopies">Total Copies</label>
+                    <label asp-for="TotalCopies">Total Copies<span class="text-danger">*</span></label>
                     <input type="number" asp-for="TotalCopies" placeholder="Enter Total Copies" class="form-control"/>
                     <span asp-validation-for="TotalCopies" class="text-danger"></span>
                 </div>
@@ -64,14 +64,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="AvailableCopies">Available Copies</label>
+                    <label asp-for="AvailableCopies">Available Copies<span class="text-danger">*</span></label>
                     <input type="number" asp-for="AvailableCopies" placeholder="Enter Available Copies" class="form-control"/>
                     <span asp-validation-for="AvailableCopies" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="Edition">Edition</label>
+                    <label asp-for="Edition">Edition<span class="text-danger">*</span></label>
                     <input type="text" asp-for="Edition" placeholder="Enter Edition" class="form-control"/>
                     <span asp-validation-for="Edition" class="text-danger"></span>
                 </div>
