@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibrarySystem.Repository.Models
 {
@@ -30,5 +30,8 @@ namespace LibrarySystem.Repository.Models
         [Required]
         [StringLength(500)]
         public string Edition { get; set; }
+
+        [StringLength(1000)]
+        public string? ImageUrl { get; set; }
     }
 }

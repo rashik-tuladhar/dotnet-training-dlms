@@ -15,6 +15,7 @@ namespace LibrarySystem.Repository.Data
         public DbSet<Publication> Publication { get; set; }
         public DbSet<Author> Author { get; set; }
         public DbSet<Member> Member { get; set; }
+        public DbSet<Borrow> Borrows { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

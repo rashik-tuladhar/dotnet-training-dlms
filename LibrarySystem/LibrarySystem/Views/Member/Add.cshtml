@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="MemberName">Member Name</label>
+                    <label asp-for="MemberName">Member Name<span class="text-danger">*</span></label>
                     <input type="text" asp-for="MemberName" placeholder="Enter Member Name" class="form-control" />
                     <span asp-validation-for="MemberName" class="text-danger"></span>
                 </div>
@@ -14,7 +14,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="Address">Address</label>
+                    <label asp-for="Address">Address<span class="text-danger">*</span></label>
                     <input type="text" asp-for="Address" placeholder="Enter Address" class="form-control" />
                     <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="PhoneNumber">Phone Number</label>
+                    <label asp-for="PhoneNumber">Phone Number<span class="text-danger">*</span></label>
                     <input type="text" asp-for="PhoneNumber" placeholder="Enter Phone Number" class="form-control" /> 
                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
@@ -31,7 +31,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="Email">Email Address</label>
+                    <label asp-for="Email">Email Address<span class="text-danger">*</span></label>
                     <input type="text" asp-for="Email" placeholder="Enter Email Address" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
@@ -40,23 +40,21 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="JoinedDate">Joined Date</label>
+                    <label asp-for="JoinedDate">Joined Date<span class="text-danger">*</span></label>
                     <input type="datetime-local" asp-for="JoinedDate" placeholder="Enter Joined Date" class="form-control" />
                     <span asp-validation-for="JoinedDate" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="col-md-6">
-                <div class="col-md-6">
                     <div class="form-group">
-                        <label asp-for="MembershipType">Membership Type</label>
+                        <label asp-for="MembershipType">Membership Type<span class="text-danger">*</span></label>
                         <select asp-for="MembershipType" class="form-control">
                             <option value="">Select Membership Type</option>
                             <option value="G">General</option>
                             <option value="P">Premium</option>
                         </select>
                         <span asp-validation-for="MembershipType" class="text-danger"></span>
-                    </div>
                 </div>
             </div>
         </div>

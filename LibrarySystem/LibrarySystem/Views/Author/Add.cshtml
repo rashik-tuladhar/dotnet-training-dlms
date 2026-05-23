@@ -1,12 +1,12 @@
 ﻿@using LibrarySystem.Shared.AuthorData
 @model AuthorDetails
-<h1>Add Publication</h1>
+<h1>Add Author</h1>
 <div class="container">
     <form asp-controller="Author" asp-action="Add" method="post">
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label asp-for="FirstName">First Name</label>
+                    <label asp-for="FirstName">First Name<span class="text-danger">*</span></label>
                     <input type="text" asp-for="FirstName" placeholder="Enter First Name" class="form-control" />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
@@ -20,7 +20,7 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label asp-for="LastName">Last Name</label>
+                    <label asp-for="LastName">Last Name<span class="text-danger">*</span></label>
                     <input type="text" asp-for="LastName" placeholder="Enter Last Name" class="form-control" />
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label asp-for="DateOfBirth">Date of Birth</label>
+                    <label asp-for="DateOfBirth">Date of Birth<span class="text-danger">*</span></label>
                     <input type="date" asp-for="DateOfBirth" class="form-control" />
                     <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                 </div>
@@ -49,7 +49,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label asp-for="Bio">Biography</label>
+                    <label asp-for="Bio">Biography<span class="text-danger">*</span></label>
                     <textarea class="form-control" asp-for="Bio" placeholder="Enter author details"></textarea>
                     <span asp-validation-for="Bio" class="text-danger"></span>
                 </div>

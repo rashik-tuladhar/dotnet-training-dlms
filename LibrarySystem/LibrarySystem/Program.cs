@@ -1,10 +1,12 @@
 using LibrarySystem.Business.AuthorBusiness;
 using LibrarySystem.Business.BookBusiness;
+using LibrarySystem.Business.BorrowBusiness;
 using LibrarySystem.Business.CategoryBusiness;
 using LibrarySystem.Business.MemberBusiness;
 using LibrarySystem.Business.PublicationBusiness;
 using LibrarySystem.Repository.AuthorRepository;
 using LibrarySystem.Repository.BookRepository;
+using LibrarySystem.Repository.BorrowRepository;
 using LibrarySystem.Repository.CategoryRepository;
 using LibrarySystem.Repository.Data;
 using LibrarySystem.Repository.MemberRepository;
@@ -32,9 +34,11 @@ public partial class Program
         builder.Services.AddScoped<IAuthorBusiness, AuthorBusiness>();
         builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
         
-        
         builder.Services.AddScoped<IMemberBusiness, MemberBusiness>();
         builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+
+        builder.Services.AddScoped<IBorrowBusiness, BorrowBusiness>();
+        builder.Services.AddScoped<IBorrowRepository, BorrowRepository>();
 
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 

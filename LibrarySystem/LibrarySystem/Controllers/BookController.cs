@@ -1,6 +1,9 @@
-﻿using LibrarySystem.Business.AuthorBusiness;
+using LibrarySystem.Business.AuthorBusiness;
 using LibrarySystem.Business.BookBusiness;
+using LibrarySystem.Business.CategoryBusiness;
+using LibrarySystem.Business.PublicationBusiness;
 using LibrarySystem.Shared.BookData;
+using LibrarySystem.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -10,11 +13,17 @@ namespace LibrarySystem.Controllers
     {
         private readonly IBookBusiness _bookBusiness;
         private readonly IAuthorBusiness _authorBusiness;
+        private readonly ICategoryBusiness _categoryBusiness;
+        private readonly IPublicationBusiness _publicationBusiness;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public BookController(IBookBusiness bookBusiness, IAuthorBusiness authorBusiness)
+        public BookController(IBookBusiness bookBusiness, IAuthorBusiness authorBusiness, ICategoryBusiness categoryBusiness, IPublicationBusiness publicationBusiness, IWebHostEnvironment webHostEnvironment)
         {
             _bookBusiness = bookBusiness;
             _authorBusiness = authorBusiness;
+            _categoryBusiness = categoryBusiness;
+            _publicationBusiness = publicationBusiness;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<IActionResult> Index()
@@ -26,12 +35,7 @@ namespace LibrarySystem.Controllers
         public async Task<IActionResult> AddBook()
         {
             BookDetails bookDetails = new BookDetails();
-            var authorList = await _authorBusiness.GetList();
-            bookDetails.AuthorList = authorList.Select(a => new SelectListItem
-            {
-                Value = a.AuthorId.ToString(),
-                Text = a.FirstName + " " + a.LastName
-            }).ToList();
+            await PopulateDropdowns(bookDetails);
             return View(bookDetails);
         }
 
@@ -39,8 +43,23 @@ namespace LibrarySystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddBook(BookDetails book)
         {
+            if (book.ImageFile != null)
+            {
+                var extension = Path.GetExtension(book.ImageFile.FileName).ToLowerInvariant();
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+                if (!allowedExtensions.Contains(extension))
+                {
+                    ModelState.AddModelError("ImageFile", "Only .jpg, .jpeg, and .png images are allowed.");
+                }
+            }
+
             if (ModelState.IsValid)
             {
+                if (book.ImageFile != null)
+                {
+                    book.ImageUrl = await BookImageHelper.UploadImageAsync(book.ImageFile, _webHostEnvironment.WebRootPath);
+                }
+
                 book.User = "admin";
                 bool isAdded = await _bookBusiness.AddBook(book);
                 if (isAdded)
@@ -57,6 +76,8 @@ namespace LibrarySystem.Controllers
             }
             else
             {
+                // repopulate dropdowns before returning the view
+                await PopulateDropdowns(book);
                 return View(book);
             }
         }
@@ -66,13 +87,7 @@ namespace LibrarySystem.Controllers
         {
             var bookId = Convert.ToInt32(id);
             var bookDetails = await _bookBusiness.GetBookDetails(bookId);
-            var authorList = await _authorBusiness.GetList();
-            bookDetails.AuthorList = authorList.Select(a => new SelectListItem
-            {
-                Value = a.AuthorId.ToString(),
-                Text = a.FirstName + " " + a.LastName,
-                Selected = a.AuthorId.ToString() == bookDetails.Author
-            }).ToList();
+            await PopulateDropdowns(bookDetails);
             return View(bookDetails);
         }
 
@@ -99,8 +114,23 @@ namespace LibrarySystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditBook(BookDetails book)
         {
+            if (book.ImageFile != null)
+            {
+                var extension = Path.GetExtension(book.ImageFile.FileName).ToLowerInvariant();
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+                if (!allowedExtensions.Contains(extension))
+                {
+                    ModelState.AddModelError("ImageFile", "Only .jpg, .jpeg, and .png images are allowed.");
+                }
+            }
+
             if (ModelState.IsValid)
             {
+                if (book.ImageFile != null)
+                {
+                    book.ImageUrl = await BookImageHelper.UploadImageAsync(book.ImageFile, _webHostEnvironment.WebRootPath);
+                }
+
                 book.User = "admin";
                 var details = await _bookBusiness.EditBooks(book);
                 if (details)
@@ -117,8 +147,66 @@ namespace LibrarySystem.Controllers
             }
             else
             {
+                // repopulate dropdowns before returning the view
+                await PopulateDropdowns(book);
                 return View(book);
             }
+        }
+
+        [HttpGet]
+        public IActionResult ViewSecureImage(string fileName, string signature)
+        {
+            if (!BookImageHelper.VerifySignature(fileName, signature))
+            {
+                return Forbid(); // Return 403 Forbidden on invalid or missing proof
+            }
+
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            // Double check existence and path traversal safety
+            var fileInfo = new FileInfo(filePath);
+            if (!fileInfo.Exists || !fileInfo.DirectoryName!.Equals(uploadsFolder, StringComparison.OrdinalIgnoreCase))
+            {
+                return NotFound("Image not found.");
+            }
+
+            var extension = Path.GetExtension(fileName).ToLowerInvariant();
+            var contentType = extension switch
+            {
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                _ => "application/octet-stream"
+            };
+
+            return PhysicalFile(filePath, contentType);
+        }
+
+        private async Task PopulateDropdowns(BookDetails book)
+        {
+            var authorList = await _authorBusiness.GetList();
+            book.AuthorList = authorList.Select(a => new SelectListItem
+            {
+                Value = a.AuthorId.ToString(),
+                Text = a.FirstName + " " + a.LastName,
+                Selected = a.AuthorId.ToString() == book.Author
+            }).ToList();
+
+            var categoryList = await _categoryBusiness.GetList();
+            book.CategoryList = categoryList.Select(c => new SelectListItem
+            {
+                Value = c.CategoryId.ToString(),
+                Text = c.Name,
+                Selected = c.CategoryId.ToString() == book.Category
+            }).ToList();
+
+            var publicationList = await _publicationBusiness.GetList();
+            book.PublicationList = publicationList.Select(p => new SelectListItem
+            {
+                Value = p.PublicationId.ToString(),
+                Text = p.PublicationName,
+                Selected = p.PublicationId.ToString() == book.Publication
+            }).ToList();
         }
     }
 }

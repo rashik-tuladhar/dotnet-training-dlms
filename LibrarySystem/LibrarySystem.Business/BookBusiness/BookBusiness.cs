@@ -1,4 +1,4 @@
-﻿using LibrarySystem.Repository.BookRepository;
+using LibrarySystem.Repository.BookRepository;
 using LibrarySystem.Repository.Models;
 using LibrarySystem.Shared.BookData;
 
@@ -26,7 +26,8 @@ namespace LibrarySystem.Business.BookBusiness
                 AvailableCopies = book.AvailableCopies,
                 Edition = book.Edition,
                 CreatedBy = book.User,
-                Status = book.Status
+                Status = book.Status,
+                ImageUrl = book.ImageUrl
             };
             return await _bookRepository.AddBook(bookEntity);
         }
@@ -49,7 +50,8 @@ namespace LibrarySystem.Business.BookBusiness
                 Isbn = bookData.Isbn,
                 TotalCopies = bookData.TotalCopies,
                 AvailableCopies = bookData.AvailableCopies,
-                Edition = bookData.Edition
+                Edition = bookData.Edition,
+                ImageUrl = bookData.ImageUrl
             };
             return bookDetails;
         }
@@ -67,6 +69,7 @@ namespace LibrarySystem.Business.BookBusiness
                     Author = book.Author,
                     Publication = book.Publication,
                     Status = string.IsNullOrEmpty(book.Status) ? "A" : book.Status,
+                    ImageUrl = book.ImageUrl
                 });
             }
 

@@ -1,4 +1,4 @@
-﻿using LibrarySystem.Repository.Data;
+using LibrarySystem.Repository.Data;
 using LibrarySystem.Repository.Models;
 using LibrarySystem.Shared.BookData;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +48,10 @@ namespace LibrarySystem.Repository.BookRepository
                 bookDetails.Edition = book.Edition;
                 bookDetails.ModifiedBy = book.User;
                 bookDetails.ModifiedDate = DateTime.UtcNow;
+                if (book.ImageUrl != null)
+                {
+                    bookDetails.ImageUrl = book.ImageUrl;
+                }
                 var result = await _context.SaveChangesAsync();
                 if(result > 0)
                     return true;

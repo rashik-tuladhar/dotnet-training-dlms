@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="PublicationName">Publication Name</label>
+                    <label asp-for="PublicationName">Publication Name<span class="text-danger">*</span></label>
                     <input type="text" asp-for="PublicationName" placeholder="Enter Publication Name" class="form-control" />
                     <span asp-validation-for="PublicationName" class="text-danger"></span>
                 </div>
@@ -14,7 +14,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="PublicationAddress">Publication Address</label>
+                    <label asp-for="PublicationAddress">Publication Address<span class="text-danger">*</span></label>
                     <input type="text" asp-for="PublicationAddress" placeholder="Enter Publication Address" class="form-control" />
                     <span asp-validation-for="PublicationAddress" class="text-danger"></span>
                 </div>
@@ -24,7 +24,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="ContactPersonName">Contact Person Name</label>
+                    <label asp-for="ContactPersonName">Contact Person Name<span class="text-danger">*</span></label>
                     <input type="text" asp-for="ContactPersonName" placeholder="Enter Contact Person Name" class="form-control" />
                     <span asp-validation-for="ContactPersonName" class="text-danger"></span>
                 </div>
@@ -32,7 +32,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="ContactPhone">Contact Phone</label>
+                    <label asp-for="ContactPhone">Contact Phone<span class="text-danger">*</span></label>
                     <input type="text" asp-for="ContactPhone" placeholder="Enter Contact Phone" class="form-control" />
                     <span asp-validation-for="ContactPhone" class="text-danger"></span>
                 </div>
@@ -50,7 +50,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="PublicationEmail">Publication Email</label>
+                    <label asp-for="PublicationEmail">Publication Email<span class="text-danger">*</span></label>
                     <input type="text" asp-for="PublicationEmail" placeholder="Enter Publication Email" class="form-control" />
                     <span asp-validation-for="PublicationEmail" class="text-danger"></span>
                 </div>

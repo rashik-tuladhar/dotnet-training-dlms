@@ -1,5 +1,5 @@
-﻿@using LibrarySystem.Shared.AuthorData
-@model List<AuthorDetails>
+@using LibrarySystem.Shared.BorrowData
+@model List<BorrowDetails>
 @section Styles {
     <style>
         .table-responsive {
@@ -33,16 +33,70 @@
         <thead>
         <tr>
             <th>SN</th>
-            <th>Author Id</th>
-            <th>Author Name</th>
-            <th>Bio</th>
-            <th>Date of Birth</th>
+            <th>Borrow Id</th>
+            <th>Book Name</th>
+            <th>Member Name</th>
+            <th>Borrowed On</th>
+            <th>Due Date</th>
+            <th>Returned</th>
+            <th>Overdue</th>
+            <th>Fine (Rs.)</th>
             <th>Status</th>
             <th>Operations</th>
         </tr>
         </thead>
         <tbody>
-            
+            @{
+                int i = 1;
+                foreach (var borrow in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@borrow.BorrowId</td>
+                        <td>@borrow.BookName</td>
+                        <td>@borrow.MemberName</td>
+                        <td>@borrow.BorrowedOn.ToString("yyyy-MM-dd")</td>
+                        <td>@borrow.DueDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            @{
+                                if (borrow.IsReturned)
+                                {
+                                    <span class="badge bg-success">Yes</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning">No</span>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                if (borrow.IsOverdue)
+                                {
+                                    <span class="badge bg-danger">Yes (@borrow.DaysOverdue days)</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">No</span>
+                                }
+                            }
+                        </td>
+                        <td>@borrow.FineAmount</td>
+                        <td>@borrow.Status</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" asp-controller="Borrow" asp-action="Details" asp-route-id="@borrow.BorrowId">View</a>
+                            @if (!borrow.IsReturned)
+                            {
+                                <form method="post" asp-controller="Borrow" asp-action="ReturnBook" style="display:inline;">
+                                    <input type="hidden" name="id" value="@borrow.BorrowId" />
+                                    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Mark as returned?')">Return</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
         </tbody>
     </table>
 </div>
@@ -50,6 +104,8 @@
 @section Scripts {
     <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js" asp-append-version="true"></script>
     <script>
-        $('#borrowTable').DataTable();
+        $(document).ready(function () {
+            $('#borrowTable').DataTable();
+        });
     </script>
 }

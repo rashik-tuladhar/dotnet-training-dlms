@@ -1,9 +1,23 @@
-﻿@using LibrarySystem.Shared.BookData
+@using LibrarySystem.Shared.BookData
+@using LibrarySystem.Helpers
 @model List<BookDetails>
 @section Styles {
     <style>
         .table-responsive {
             margin-top: 20px;
+        }
+        .book-cover-thumbnail {
+            width: 45px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease-in-out;
+        }
+        .book-cover-thumbnail:hover {
+            transform: scale(1.15) translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.15), 0 4px 6px -2px rgba(0,0,0,0.1);
         }
     </style>
     <link rel="stylesheet" href="//cdn.datatables.net/2.3.8/css/dataTables.dataTables.min.css" asp-append-version="true" />
@@ -33,6 +47,7 @@
         <thead>
             <tr>
                 <th>SN</th>
+                <th>Book Cover</th>
                 <th>Book Id</th>
                 <th>Book Name</th>
                 <th>Book Author</th>
@@ -48,6 +63,9 @@
                 {
                     <tr>
                         <td>@i</td>
+                        <td>
+                            <img src="@BookImageHelper.GenerateSecureImageUrl(book.ImageUrl, Url)" alt="@book.Name Cover" class="book-cover-thumbnail" />
+                        </td>
                         <td>@book.BookId</td>
                         <td>@book.Name</td>
                         <td>@book.Author</td>
