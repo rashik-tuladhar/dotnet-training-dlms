@@ -5,6 +5,7 @@ namespace LibrarySystem.Shared.AuthorData
     public class AuthorDetails
     {
         public int AuthorId { get; set; }
+        public string AuthorIdString { get; set; }
         [Required]
         public string FirstName { get; set; }
         public string? MiddleName { get; set; }

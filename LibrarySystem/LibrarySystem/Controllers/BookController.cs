@@ -87,6 +87,7 @@ namespace LibrarySystem.Controllers
         {
             var bookId = Convert.ToInt32(id);
             var bookDetails = await _bookBusiness.GetBookDetails(bookId);
+            
             await PopulateDropdowns(bookDetails);
             return View(bookDetails);
         }
@@ -210,3 +211,5 @@ namespace LibrarySystem.Controllers
         }
     }
 }
+
+

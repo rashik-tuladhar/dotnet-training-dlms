@@ -1,4 +1,5 @@
 ﻿using LibrarySystem.Business.AuthorBusiness;
+using LibrarySystem.Helpers;
 using LibrarySystem.Shared.AuthorData;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,6 +56,7 @@ namespace LibrarySystem.Controllers
         {
             var authorId = Convert.ToInt32(id);
             var authorDetails = await _authorBusiness.GetDetails(authorId);
+            authorDetails.AuthorIdString = EncryptionHelper.Encrypt(authorDetails.AuthorId.ToString());
             return View(authorDetails);
         }
 
@@ -62,6 +64,7 @@ namespace LibrarySystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(AuthorDetails author)
         {
+            author.AuthorId = Convert.ToInt32(EncryptionHelper.Decrypt(author.AuthorIdString));
             if (ModelState.IsValid)
             {
                 author.User = "admin";

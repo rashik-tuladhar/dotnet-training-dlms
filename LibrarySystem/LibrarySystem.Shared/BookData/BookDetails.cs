@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LibrarySystem.Shared.BookData
@@ -50,6 +51,6 @@ namespace LibrarySystem.Shared.BookData
         public string? ImageUrl { get; set; }
 
         [DataType(DataType.Upload)]
-        public Microsoft.AspNetCore.Http.IFormFile? ImageFile { get; set; }
+        public IFormFile? ImageFile { get; set; }
     }
 }
