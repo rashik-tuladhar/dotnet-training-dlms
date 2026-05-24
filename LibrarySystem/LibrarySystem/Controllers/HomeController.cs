@@ -1,9 +1,11 @@
+using LibrarySystem.Helpers;
 using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace LibrarySystem.Controllers
 {
+    [CustomAuthorize]
     public class HomeController : Controller
     {
         public IActionResult Index()

@@ -1,9 +1,11 @@
-﻿using LibrarySystem.Business.CategoryBusiness;
+using LibrarySystem.Business.CategoryBusiness;
+using LibrarySystem.Helpers;
 using LibrarySystem.Shared.CategoryData;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibrarySystem.Controllers
 {
+    [CustomAuthorize("SuperAdmin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryBusiness _categoryBusiness;

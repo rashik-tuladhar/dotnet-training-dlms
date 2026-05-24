@@ -1,9 +1,11 @@
-﻿using LibrarySystem.Business.PublicationBusiness;
+using LibrarySystem.Business.PublicationBusiness;
+using LibrarySystem.Helpers;
 using LibrarySystem.Shared.PublicationData;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibrarySystem.Controllers
 {
+    [CustomAuthorize("SuperAdmin")]
     public class PublicationController : Controller
     {
         private readonly IPublicationBusiness _publicationBusiness;

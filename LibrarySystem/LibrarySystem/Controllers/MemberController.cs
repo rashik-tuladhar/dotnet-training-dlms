@@ -1,11 +1,13 @@
-﻿using LibrarySystem.Business.MemberBusiness;
+using LibrarySystem.Business.MemberBusiness;
 using LibrarySystem.Business.PublicationBusiness;
+using LibrarySystem.Helpers;
 using LibrarySystem.Shared.MemberData;
 using LibrarySystem.Shared.PublicationData;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibrarySystem.Controllers
 {
+    [CustomAuthorize("SuperAdmin")]
     public class MemberController : Controller
     {
         private readonly IMemberBusiness _memberBusiness;

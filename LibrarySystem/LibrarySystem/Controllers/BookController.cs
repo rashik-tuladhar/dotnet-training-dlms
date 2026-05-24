@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LibrarySystem.Controllers
 {
+    [CustomAuthorize("SuperAdmin")]
     public class BookController : Controller
     {
         private readonly IBookBusiness _bookBusiness;

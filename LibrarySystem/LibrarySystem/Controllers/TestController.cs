@@ -1,3 +1,4 @@
+using LibrarySystem.Helpers;
 using LibrarySystem.Models;
 using LibrarySystem.Repository.Data;
 using LibrarySystem.Repository.Models;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 
 namespace LibrarySystem.Controllers
 {
+    [CustomAuthorize("SuperAdmin")]
     public class TestController : Controller
     {
         private readonly ApplicationDbContext _context;

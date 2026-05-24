@@ -4,6 +4,7 @@ using LibrarySystem.Business.BorrowBusiness;
 using LibrarySystem.Business.CategoryBusiness;
 using LibrarySystem.Business.MemberBusiness;
 using LibrarySystem.Business.PublicationBusiness;
+using LibrarySystem.Middleware;
 using LibrarySystem.Repository.AuthorRepository;
 using LibrarySystem.Repository.BookRepository;
 using LibrarySystem.Repository.BorrowRepository;
@@ -58,6 +59,9 @@ public partial class Program
 
         app.UseHttpsRedirection();
         app.UseRouting();
+
+        // Custom authentication middleware to decrypt cookies and populate User context
+        app.UseMiddleware<CustomAuthenticationMiddleware>();
 
         app.UseAuthorization();
 

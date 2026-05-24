@@ -1,6 +1,7 @@
 using LibrarySystem.Business.BookBusiness;
 using LibrarySystem.Business.BorrowBusiness;
 using LibrarySystem.Business.MemberBusiness;
+using LibrarySystem.Helpers;
 using LibrarySystem.Shared.BorrowData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace LibrarySystem.Controllers
 {
+    [CustomAuthorize("SuperAdmin,Staff")]
     public class BorrowController : Controller
     {
         private readonly IBorrowBusiness _borrowBusiness;
