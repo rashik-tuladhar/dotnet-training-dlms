@@ -2,12 +2,14 @@ using LibrarySystem.Business.BookBusiness;
 using LibrarySystem.Business.BorrowBusiness;
 using LibrarySystem.Business.MemberBusiness;
 using LibrarySystem.Shared.BorrowData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 
 namespace LibrarySystem.Controllers
 {
+    [Authorize(Roles = "SuperAdmin,Staff")]
     public class BorrowController : Controller
     {
         private readonly IBorrowBusiness _borrowBusiness;

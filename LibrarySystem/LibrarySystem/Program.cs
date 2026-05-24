@@ -4,13 +4,16 @@ using LibrarySystem.Business.BorrowBusiness;
 using LibrarySystem.Business.CategoryBusiness;
 using LibrarySystem.Business.MemberBusiness;
 using LibrarySystem.Business.PublicationBusiness;
+using LibrarySystem.Helpers;
 using LibrarySystem.Repository.AuthorRepository;
 using LibrarySystem.Repository.BookRepository;
 using LibrarySystem.Repository.BorrowRepository;
 using LibrarySystem.Repository.CategoryRepository;
 using LibrarySystem.Repository.Data;
 using LibrarySystem.Repository.MemberRepository;
+using LibrarySystem.Repository.Models;
 using LibrarySystem.Repository.PublicationRepository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 public partial class Program
@@ -45,6 +48,38 @@ public partial class Program
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
          options.UseSqlite(connectionString));
 
+        // Read lockout settings from configuration, with safe defaults
+        var maxFailedAttempts = builder.Configuration.GetValue<int>("IdentitySettings:MaxFailedAccessAttempts", 5);
+        var lockoutMinutes = builder.Configuration.GetValue<int>("IdentitySettings:DefaultLockoutMinutes", 1);
+
+        // Configure standard ASP.NET Core Identity with ApplicationUser
+        builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+        {
+            // Simple password policies for training demonstration
+            options.Password.RequireDigit = false;
+            options.Password.RequiredLength = 6;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireLowercase = false;
+
+            // Lockout settings read dynamically
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(lockoutMinutes); 
+            options.Lockout.MaxFailedAccessAttempts = maxFailedAttempts;                     
+            options.Lockout.AllowedForNewUsers = true;                                       
+        })
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
+
+        // Configure custom redirect paths for standard cookies
+        builder.Services.ConfigureApplicationCookie(options =>
+        {
+            options.LoginPath = "/Auth/Login";
+            options.LogoutPath = "/Auth/Logout";
+            options.AccessDeniedPath = "/Auth/AccessDenied";
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SameSite = SameSiteMode.Strict;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+        });
 
         var app = builder.Build();
 
@@ -59,6 +94,8 @@ public partial class Program
         app.UseHttpsRedirection();
         app.UseRouting();
 
+        // Standard ASP.NET Core Authentication middleware
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapStaticAssets();
@@ -68,6 +105,12 @@ public partial class Program
             pattern: "{controller=Home}/{action=Index}/{id?}")
             .WithStaticAssets();
 
+        // Seed Roles and Default Users at application startup
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            SeedData.SeedIdentityAsync(services).GetAwaiter().GetResult();
+        }
 
         app.Run();
     }

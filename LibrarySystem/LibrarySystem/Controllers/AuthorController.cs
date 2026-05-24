@@ -1,10 +1,12 @@
-﻿using LibrarySystem.Business.AuthorBusiness;
+using LibrarySystem.Business.AuthorBusiness;
 using LibrarySystem.Helpers;
 using LibrarySystem.Shared.AuthorData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibrarySystem.Controllers
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class AuthorController : Controller
     {
         private readonly IAuthorBusiness _authorBusiness;

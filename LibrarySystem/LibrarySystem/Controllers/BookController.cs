@@ -4,11 +4,13 @@ using LibrarySystem.Business.CategoryBusiness;
 using LibrarySystem.Business.PublicationBusiness;
 using LibrarySystem.Shared.BookData;
 using LibrarySystem.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LibrarySystem.Controllers
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class BookController : Controller
     {
         private readonly IBookBusiness _bookBusiness;
