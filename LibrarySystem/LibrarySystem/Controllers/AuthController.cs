@@ -45,7 +45,7 @@ namespace LibrarySystem.Controllers
             var result = await _signInManager.PasswordSignInAsync(
                 model.Username, 
                 model.Password, 
-                isPersistent: false, // Session-only cookie
+                isPersistent: true, // Session-only cookie
                 lockoutOnFailure: true // Enable lockout counting!
             );
 
