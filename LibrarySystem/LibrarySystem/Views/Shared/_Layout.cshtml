@@ -44,11 +44,23 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Index">Members Management</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="UserManagement" asp-action="Index">User Management</a>
+                            </li>
                         }
                         @if (User.IsInRole("SuperAdmin") || User.IsInRole("Staff"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Borrow" asp-action="Index">Borrow Management</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="reportsDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Reports
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="reportsDropdownMenuLink">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="BorrowedBooks">Borrowed Books By Date</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="MemberBorrowHistory">Member Borrow History</a>
+                                </div>
                             </li>
                         }
                     }

@@ -4,6 +4,8 @@ using LibrarySystem.Business.BorrowBusiness;
 using LibrarySystem.Business.CategoryBusiness;
 using LibrarySystem.Business.MemberBusiness;
 using LibrarySystem.Business.PublicationBusiness;
+using LibrarySystem.Business.ReportBusiness;
+using LibrarySystem.Business.UserBusiness;
 using LibrarySystem.Helpers;
 using LibrarySystem.Repository.AuthorRepository;
 using LibrarySystem.Repository.BookRepository;
@@ -13,6 +15,8 @@ using LibrarySystem.Repository.Data;
 using LibrarySystem.Repository.MemberRepository;
 using LibrarySystem.Repository.Models;
 using LibrarySystem.Repository.PublicationRepository;
+using LibrarySystem.Repository.ReportRepository;
+using LibrarySystem.Repository.UserRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,6 +46,12 @@ public partial class Program
 
         builder.Services.AddScoped<IBorrowBusiness, BorrowBusiness>();
         builder.Services.AddScoped<IBorrowRepository, BorrowRepository>();
+
+        builder.Services.AddScoped<IUserBusiness, UserBusiness>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+        builder.Services.AddScoped<IReportBusiness, ReportBusiness>();
+        builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
