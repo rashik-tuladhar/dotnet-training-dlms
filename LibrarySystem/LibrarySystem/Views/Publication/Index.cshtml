@@ -1,48 +1,45 @@
 ﻿@using LibrarySystem.Shared.PublicationData
 @model List<PublicationDetails>
-<h1>Hello Publication Index</h1>
-<a asp-controller="Publication" asp-action="AddPublication" class="btn btn-primary">Add Publication</a>
+@section Styles {
+    <style>
+        .table-responsive {
+            margin-top: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.8/css/dataTables.dataTables.min.css" asp-append-version="true" />
+}
+
+<h1>Publication Management</h1>
 
 @{
     string tempDataMessage = TempData["isSuccess"] as string;
-    if (tempDataMessage == "YES")
+    if(!string.IsNullOrEmpty(tempDataMessage))
     {
-        <span class="text-success">@TempData["Message"]</span>
-    }
-    else
-    {
-        <span class="text-danger">@TempData["Message"]</span>
+        if (tempDataMessage == "YES")
+        {
+            <div class="alert alert-success">@TempData["Message"]</div>
+        }
+        else
+        {
+            <div class="alert alert-danger">@TempData["Message"]</div>
+        }
     }
 }
 
-<form method="get" asp-controller="Publication" asp-action="Index" >
-    <br> <div class="row mb-3">
-        <div class="col-md-4">
-            <input type="text"
-                   name="searchText"
-                   value="@Context.Request.Query["searchText"]"
-                   class="form-control" 
-                   placeholder="Search publication name..." />
-        </div>
-
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary">
-                Search
-            </button>
-        </div>
-    </div>
-</form>
+<a asp-controller="Publication" asp-action="Add" class="btn btn-primary">Add Publication</a>
 
 <div class="table-responsive">
-    <table class="table">
+    <table class="table" id="categoryTable">
         <thead>
             <tr>
                 <th>SN</th>
                 <th>Publication Id</th>
                 <th>Publication Name</th>
-                <th>Publication Contact Person Name</th>
-                <th>Publication Contact</th>
-                <th>Publication Email</th>
+                <th>Publication Address</th>
+                <th>Contact Person Name</th>
+                <th>Contact Phonenumber</th>
+                <th>Publication Status</th>
+                <th>Operations</th>
             </tr>
         </thead>
         <tbody>
@@ -54,11 +51,25 @@
                         <td>@i</td>
                         <td>@publication.PublicationId</td>
                         <td>@publication.PublicationName</td>
-                        <td>@publication.PContactPersonName</td>
-                        <td>@publication.PContactPhone</td>
-                        <td>@publication.PublicationEmail</td>
-
-                        <td><a class="btn btn-primary btn-sm" asp-controller="Publication" asp-action="EditPublication" asp-route-id="@publication.PublicationId">Edit</a></td>
+                        <td>@publication.PublicationAddress</td>
+                        <td>@publication.ContactPersonName</td>
+                        <td>@publication.ContactPhone</td>
+                        <td>
+                            @{
+                                if (publication.Status == "A")
+                                {
+                                    <span class="badge bg-success">Available</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Not Available</span>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" asp-controller="Publication" asp-action="Edit" asp-route-id="@publication.PublicationId">Edit</a>
+                            <a class="btn btn-warning btn-sm" asp-controller="Publication" asp-action="UpdateStatus" asp-route-id="@publication.PublicationId" onclick="return confirm('Are you sure you want to change the status?')">Change Status</a>
+                        </td>
                     </tr>
                     i++;
                 }
@@ -66,3 +77,10 @@
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js" asp-append-version="true"></script>
+    <script>
+        $('#categoryTable').DataTable();
+    </script>
+}

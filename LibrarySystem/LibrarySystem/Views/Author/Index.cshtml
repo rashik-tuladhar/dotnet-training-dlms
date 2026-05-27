@@ -1,33 +1,46 @@
 ﻿@using LibrarySystem.Shared.AuthorData
 @model List<AuthorDetails>
-<h1>Hello Author Index</h1>
-<a asp-controller="Author" asp-action="AddAuthor" class="btn btn-primary">Add Authors</a>
+
+@section Styles {
+    <style>
+        .table-responsive {
+            margin-top: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.8/css/dataTables.dataTables.min.css" asp-append-version="true" />
+}
+
+<h1>Author Management</h1>
 
 @{
     string tempDataMessage = TempData["isSuccess"] as string;
-    if (tempDataMessage == "YES")
+    if(!string.IsNullOrEmpty(tempDataMessage))
     {
-        <span class="text-success">@TempData["Message"]</span>
-    }
-    else
-    {
-        <span class="text-danger">@TempData["Message"]</span>
+        if (tempDataMessage == "YES")
+        {
+            <div class="alert alert-success">@TempData["Message"]</div>
+        }
+        else
+        {
+            <div class="alert alert-danger">@TempData["Message"]</div>
+        }
     }
 }
 
+<a asp-controller="Author" asp-action="Add" class="btn btn-primary">Add Author</a>
 
 <div class="table-responsive">
-    <table class="table">
+    <table class="table" id="authorTable">
         <thead>
-            <tr>
-                <th>SN</th>
-                <th>Author First Name</th>
-                <th>Author Middle Name</th>
-                <th>Author Last Name</th>
-                <th>Author Date of Birth</th>
-                <th>Bio</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>SN</th>
+            <th>Author Id</th>
+            <th>Author Name</th>
+            <th>Bio</th>
+            <th>Date of Birth</th>
+            <th>Status</th>
+            <th>Operations</th>
+        </tr>
         </thead>
         <tbody>
             @{
@@ -36,12 +49,37 @@
                 {
                     <tr>
                         <td>@i</td>
-                        <td>@author.FirstName</td>
-                        <td>@author.MiddleName</td>
-                        <td>@author.LastName</td>
-                        <td>@author.DateOfBirth</td>
+                        <td>@author.AuthorId</td>
+                        <td>
+                            @{
+                                var fullName = string.Concat(
+                                    author.FirstName,
+                                    " ",
+                                    string.IsNullOrEmpty(author.MiddleName) ? string.Empty : author.MiddleName + " ",
+                                    " ",
+                                    author.LastName
+                                );
+                            }
+                            @fullName
+                        </td>
                         <td>@author.Bio</td>
-                        <td><a class="btn btn-primary btn-sm" asp-controller="Author" asp-action="EditAuthor" asp-route-id="@author.AuthorId">Edit</a></td>
+                        <td>@author.DateOfBirth</td>
+                        <td>
+                            @{
+                                if (author.Status == "A")
+                                {
+                                    <span class="badge bg-success">Available</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Not Available</span>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" asp-controller="Author" asp-action="Edit" asp-route-id="@author.AuthorId">Edit</a>
+                            <a class="btn btn-warning btn-sm" asp-controller="Author" asp-action="UpdateStatus" asp-route-id="@author.AuthorId" onclick="return confirm('Are you sure you want to change the status?')">Change Status</a>
+                        </td>
                     </tr>
                     i++;
                 }
@@ -49,3 +87,10 @@
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js" asp-append-version="true"></script>
+    <script>
+        $('#authorTable').DataTable();
+    </script>
+}

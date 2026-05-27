@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibrarySystem.Repository.Models
 {
@@ -6,23 +6,32 @@ namespace LibrarySystem.Repository.Models
     {
         [Key]
         public int BookId { get; set; }
-
         [Required]
-        [MinLength(5)]
-        public string? Name { get; set; }
-        public string? Author { get; set; }
-        public string? Publication { get; set; }
-        public string? Category { get; set; }
-        public string? Edition { get; set; }
-        public string? Year { get; set; }
+        [StringLength(500)]
+        public string Name { get; set; }
+        [Required]
+        [StringLength(500)]
+        public string Author { get; set; }
+        [Required]
+        [StringLength(500)]
+        public string Publication { get; set; }
+        [Required]
+        [StringLength(500)]
+        public string Category { get; set; }
+        [Required]
+        [StringLength(200)]
+        public string Isbn { get; set; }
+        [Required]
+        [Range(1,50)]
         public int TotalCopies { get; set; }
+        [Required]
+        [Range(1, 50)]
         public int AvailableCopies { get; set; }
-        public string? PublishedYear { get; set; }
-        public string? Isbn { get; set; }
-        public int NoOfPages { get; set; }
-        public string? Description { get; set; }
-        public string? CoverImageUrl { get; set; }
-        public string? LocationInLibrary { get; set; } 
-        
+        [Required]
+        [StringLength(500)]
+        public string Edition { get; set; }
+
+        [StringLength(1000)]
+        public string? ImageUrl { get; set; }
     }
 }

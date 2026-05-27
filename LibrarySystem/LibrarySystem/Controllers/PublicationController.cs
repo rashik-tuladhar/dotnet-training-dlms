@@ -1,77 +1,48 @@
-﻿using LibrarySystem.Business.PublicationBusiness;
-using LibrarySystem.Repository.Models;
+using LibrarySystem.Business.PublicationBusiness;
 using LibrarySystem.Shared.PublicationData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibrarySystem.Controllers
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class PublicationController : Controller
     {
-
         private readonly IPublicationBusiness _publicationBusiness;
+
         public PublicationController(IPublicationBusiness publicationBusiness)
         {
-            _publicationBusiness = publicationBusiness; 
+            _publicationBusiness = publicationBusiness;
         }
 
-
-        public async Task<IActionResult> Index(string searchText)
+        public async Task<IActionResult> Index()
         {
-            var publicationList = await _publicationBusiness.GetPublicationList(searchText);
+            var publicationList = await _publicationBusiness.GetList();
             return View(publicationList);
         }
 
-        public async Task<IActionResult> AddPublication(PublicationDetails publication) {
-
-            if (ModelState.IsValid)
-            {
-                //if (book.Name != "hello")
-                //{
-                //    ModelState.AddModelError("Name", "Hello custom error");
-                //}
-                bool isAdded = await _publicationBusiness.AddPublication(publication);
-                if (isAdded)
-                {
-                    TempData["isSuccess"] = "YES";
-                    TempData["Message"] = "Publication added successfully";
-                }
-                else
-                {
-                    TempData["isSuccess"] = "YES";
-                    TempData["Message"] = "Failed to add publication";
-                }
-                return RedirectToAction("AddPublication");
-            }
-            else
-            {
-                return View(publication);
-            }
-        }
-
-        public async  Task<IActionResult> EditPublication(string id)
+        public IActionResult Add()
         {
-            var publicationId = Convert.ToInt32(id);
-            var publicationDetails = await _publicationBusiness.GetPublicationDetails(publicationId);
-            return View(publicationDetails);
-
-
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPublication(PublicationDetails publication)
+        public async Task<IActionResult> Add(PublicationDetails publication)
         {
             if (ModelState.IsValid)
             {
-                var details = await _publicationBusiness.EditPublication(publication);
-                if (details)
+                publication.User = "admin";
+                bool isAdded = await _publicationBusiness.Add(publication);
+                if (isAdded)
                 {
-                    TempData["Message"] = "Publication details updated successfully";
+                    TempData["isSuccess"] = "YES";
+                    TempData["Message"] = "Category added successfully";
                 }
                 else
                 {
-                    TempData["isSuccess"] = "NO";
-                    TempData["Message"] = "Failed to update Publication details";
+                    TempData["isSuccess"] = "YES";
+                    TempData["Message"] = "Failed to add category";
                 }
                 return RedirectToAction("Index");
             }
@@ -81,6 +52,59 @@ namespace LibrarySystem.Controllers
             }
         }
 
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            var publicationId = Convert.ToInt32(id);
+            var publicationDetails = await _publicationBusiness.GetDetails(publicationId);
+            return View(publicationDetails);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(PublicationDetails publication)
+        {
+            if (ModelState.IsValid)
+            {
+                publication.User = "admin";
+                var details = await _publicationBusiness.Edit(publication);
+                if (details)
+                {
+                    TempData["isSuccess"] = "YES";
+                    TempData["Message"] = "Publication details updated successfully";
+                }
+                else
+                {
+                    TempData["isSuccess"] = "NO";
+                    TempData["Message"] = "Failed to update publication details";
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(publication);
+            }
+        }
+
+        public async Task<IActionResult> UpdateStatus(string id)
+        {
+            var publicationId = Convert.ToInt32(id);
+            var user = "admin";
+            var isUpdated = await _publicationBusiness.UpdateStatus(publicationId,user);
+            if (isUpdated)
+            {
+                TempData["isSuccess"] = "YES";
+                TempData["Message"] = "Publication status updated successfully";
+            }
+            else
+            {
+                TempData["isSuccess"] = "YES";
+                TempData["Message"] = "Failed to update publication status";
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        
     }
 }
-

@@ -1,10 +1,7 @@
 ﻿using LibrarySystem.Repository.Models;
 using LibrarySystem.Repository.PublicationRepository;
-using LibrarySystem.Shared.BookData;
 using LibrarySystem.Shared.PublicationData;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibrarySystem.Business.PublicationBusiness
 {
@@ -17,77 +14,70 @@ namespace LibrarySystem.Business.PublicationBusiness
             _publicationRepository = publicationRepository;
         }
 
-       
-
-        public async Task<bool> AddPublication(PublicationDetails publication)
+        public async Task<bool> Add(PublicationDetails publication)
         {
-            var publicationEntity = new Repository.Models.Publication
+            var publicationEntity = new Publication
             {
                 PublicationName = publication.PublicationName,
                 PublicationAddress = publication.PublicationAddress,
-                PContactPersonName = publication.PContactPersonName,
-                PContactPhone = publication.PContactPhone,
-                PublicationEmail = publication.PublicationEmail
-               
+                PublicationEmail = publication.PublicationEmail,
+                ContactPersonName = publication.ContactPersonName,
+                ContactPhone = publication.ContactPhone,
+                PublicationWebsite = publication.PublicationWebsite,
+                Status = publication.Status,
+                CreatedBy = publication.User,
+                CreatedDate = DateTime.Now
             };
-            return await _publicationRepository.AddPublication(publicationEntity);
+            return await _publicationRepository.Add(publicationEntity);
         }
 
-        public Task<bool> DeletePublication(int publicationId)
+        public async Task<bool> Edit(PublicationDetails publication)
         {
-            throw new NotImplementedException();
+            return await _publicationRepository.Edit(publication);
         }
 
-        public async Task<bool> EditPublication(PublicationDetails publication)
+        public async Task<PublicationDetails> GetDetails(int id)
         {
-            return await _publicationRepository.EditPublication(publication);
-        }
-
-        public async Task<PublicationDetails> GetPublicationDetails(int id)
-        {
-            var publicationData = await _publicationRepository.GetPublicationDetails(id);
+            var publicationData = await _publicationRepository.GetDetails(id);
             var publicationDetails = new PublicationDetails
             {
                 PublicationId = publicationData.PublicationId,
                 PublicationName = publicationData.PublicationName,
                 PublicationAddress = publicationData.PublicationAddress,
-                PContactPersonName = publicationData.PContactPersonName,
-                PContactPhone = publicationData.PContactPhone,
-                PublicationEmail = publicationData.PublicationEmail
+                PublicationEmail = publicationData.PublicationEmail,
+                ContactPersonName = publicationData.ContactPersonName,
+                ContactPhone = publicationData.ContactPhone,
+                PublicationWebsite = publicationData.PublicationWebsite,
+                Status = publicationData.Status
             };
             return publicationDetails;
         }
 
-        
-
-        public async Task<List<PublicationDetails>> GetPublicationList(string searchText)
+        public async Task<List<PublicationDetails>> GetList()
         {
             List<PublicationDetails> publicationList = new List<PublicationDetails>();
-            var publications = await _publicationRepository.GetPublicationList(searchText);
+            var publications = await _publicationRepository.GetList();
             foreach (var publication in publications)
             {
                 publicationList.Add(new PublicationDetails
-                { 
+                {
                     PublicationId = publication.PublicationId,
                     PublicationName = publication.PublicationName,
                     PublicationAddress = publication.PublicationAddress,
-                    PContactPersonName = publication.PContactPersonName,
-                    PContactPhone = publication.PContactPhone,
-                    PublicationEmail= publication.PublicationEmail
+                    PublicationEmail = publication.PublicationEmail,
+                    ContactPersonName = publication.ContactPersonName,
+                    ContactPhone = publication.ContactPhone,
+                    PublicationWebsite = publication.PublicationWebsite,
+                    Status = string.IsNullOrEmpty(publication.Status) ? "A" : publication.Status,
                 });
             }
-
             return publicationList;
-
         }
 
-
-
-
-
-
-
-
-
+        public async Task<bool> UpdateStatus(int publicationId, string user)
+        {
+            var result = await _publicationRepository.UpdateStatus(publicationId, user);
+            return result;
+        }
     }
 }

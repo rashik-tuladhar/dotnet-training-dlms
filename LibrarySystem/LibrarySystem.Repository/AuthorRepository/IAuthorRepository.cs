@@ -5,9 +5,10 @@ namespace LibrarySystem.Repository.AuthorRepository
 {
     public interface IAuthorRepository
     {
-        Task<bool> AddAuthor(Author author);
-        Task<bool> EditAuthor(AuthorDetails author);
-        Task<Author?> GetAuthorDetails(int id);
-        Task<List<Author>> GetAuthorList();
+        Task<bool> Add(Author authorEntity);
+        Task<bool> Edit(AuthorDetails author);  
+        Task<Author> GetDetails(int id);
+        Task<List<Author>> GetList();
+        Task<bool> UpdateStatus(int authorId, string user);
     }
 }

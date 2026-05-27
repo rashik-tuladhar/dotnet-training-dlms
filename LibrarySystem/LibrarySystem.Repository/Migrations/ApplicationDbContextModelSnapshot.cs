@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LibrarySystem.Migrations
+namespace LibrarySystem.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -17,9 +17,81 @@ namespace LibrarySystem.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.7");
 
+            modelBuilder.Entity("LibrarySystem.Repository.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CustomNotes")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("LibrarySystem.Repository.Models.Author", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AuthorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -45,7 +117,6 @@ namespace LibrarySystem.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("MiddleName")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ModifiedBy")
@@ -57,9 +128,9 @@ namespace LibrarySystem.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("AuthorId");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Author");
                 });
 
             modelBuilder.Entity("LibrarySystem.Repository.Models.Book", b =>
@@ -69,15 +140,16 @@ namespace LibrarySystem.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Author")
+                        .IsRequired()
+                        .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("AvailableCopies")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Category")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CoverImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
@@ -86,16 +158,18 @@ namespace LibrarySystem.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Edition")
+                        .IsRequired()
+                        .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Edition")
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Isbn")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LocationInLibrary")
+                        .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ModifiedBy")
@@ -106,15 +180,12 @@ namespace LibrarySystem.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(500)
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("NoOfPages")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Publication")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PublishedYear")
+                        .IsRequired()
+                        .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Status")
@@ -123,17 +194,71 @@ namespace LibrarySystem.Migrations
                     b.Property<int>("TotalCopies")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Year")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("BookId");
+
+                    b.HasIndex("Isbn")
+                        .IsUnique();
 
                     b.ToTable("Books");
                 });
 
+            modelBuilder.Entity("LibrarySystem.Repository.Models.Borrow", b =>
+                {
+                    b.Property<int>("BorrowId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("BorrowedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("DaysOverdue")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("FineAmount")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsOverdue")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsReturned")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MemberId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("BorrowId");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("Borrows");
+                });
+
             modelBuilder.Entity("LibrarySystem.Repository.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -160,18 +285,18 @@ namespace LibrarySystem.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("CategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("LibrarySystem.Repository.Models.LibraryLocation", b =>
+            modelBuilder.Entity("LibrarySystem.Repository.Models.Member", b =>
                 {
-                    b.Property<int>("LocationId")
+                    b.Property<int>("MemberId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Aisle")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -181,10 +306,22 @@ namespace LibrarySystem.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Floor")
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("JoinedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MemberName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MembershipType")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ModifiedBy")
@@ -193,19 +330,15 @@ namespace LibrarySystem.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Section")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Shelf")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<long>("PhoneNumber")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Status")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("LocationId");
+                    b.HasKey("MemberId");
 
-                    b.ToTable("LibraryLocations");
+                    b.ToTable("Member");
                 });
 
             modelBuilder.Entity("LibrarySystem.Repository.Models.Publication", b =>
@@ -214,6 +347,14 @@ namespace LibrarySystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("ContactPersonName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContactPhone")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
@@ -224,14 +365,6 @@ namespace LibrarySystem.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PContactPersonName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PContactPhone")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PublicationAddress")
@@ -254,7 +387,205 @@ namespace LibrarySystem.Migrations
 
                     b.HasKey("PublicationId");
 
-                    b.ToTable("Publications");
+                    b.ToTable("Publication");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("LibrarySystem.Repository.Models.Borrow", b =>
+                {
+                    b.HasOne("LibrarySystem.Repository.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LibrarySystem.Repository.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("LibrarySystem.Repository.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("LibrarySystem.Repository.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LibrarySystem.Repository.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("LibrarySystem.Repository.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

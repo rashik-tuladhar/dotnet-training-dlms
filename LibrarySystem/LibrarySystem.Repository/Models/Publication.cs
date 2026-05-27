@@ -1,21 +1,21 @@
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace LibrarySystem.Repository.Models;
-
-public class Publication : BaseEntity
+namespace LibrarySystem.Repository.Models
 {
-    [Key]
-    public int PublicationId { get; set; } 
-    [Required]
-    public string PublicationName { get; set; }
-    [Required]
-    public string? PublicationAddress { get; set; }
-    [Required]
-    public string? PContactPersonName { get; set; }
-    [Required]
-    public string? PContactPhone { get; set; }
-    [Required]
-    public string? PublicationEmail { get; set; }
-    public string? PublicationWebsite { get; set; }
+    public class Publication : BaseEntity
+    {
+        [Key]
+        public int PublicationId { get; set; }
+        [Required]
+        public string PublicationName { get; set; }
+        [Required]
+        public string? PublicationAddress { get; set; }
+        [Required]
+        public string? ContactPersonName { get; set; }
+        [Required]
+        public string? ContactPhone { get; set; }
+        [Required]
+        public string? PublicationEmail { get; set; }
+        public string? PublicationWebsite { get; set; }
+    }
 }

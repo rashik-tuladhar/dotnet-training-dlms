@@ -1,9 +1,7 @@
 ﻿using LibrarySystem.Repository.Data;
 using LibrarySystem.Repository.Models;
-using LibrarySystem.Shared.BookData;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using LibrarySystem.Shared.CategoryData;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.Repository.CategoryRepository
 {
@@ -16,20 +14,67 @@ namespace LibrarySystem.Repository.CategoryRepository
             _context = context;
         }
 
-        public Task<bool> AddCategory(Category category)
+        public async Task<bool> Add(Category data)
         {
-            throw new NotImplementedException();
+            await _context.Category.AddAsync(data);
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+                if (result > 0)
+                    return true;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+                var stackTrace = ex.StackTrace;
+                return false;
+            }
+
         }
 
-        public Task<bool> EditCategory(int id)
+        public async Task<bool> Edit(CategoryDetails category)
         {
-            throw new NotImplementedException();
+            var details = _context.Category.FirstOrDefault(x => x.CategoryId == category.CategoryId);
+            if (details != null)
+            {
+                details.Name = category.Name;
+                details.Description = category.Description;
+                details.Status = category.Status;
+                details.ModifiedBy = category.User;
+                details.ModifiedDate = DateTime.UtcNow;
+                var result = await _context.SaveChangesAsync();
+                if (result > 0)
+                    return true;
+            }
+            return false;
         }
 
-        public List<Category> GetCategoryList()
+        public async Task<Category> GetDetails(int id)
         {
-            var details = _context.Categories.ToList();
+            var details = await _context.Category.AsNoTracking().FirstOrDefaultAsync(x => x.CategoryId == id);
             return details;
+        }
+
+        public async Task<List<Category>> GetList()
+        {
+            var listValue = await _context.Category.AsNoTracking().OrderByDescending(x => x.CategoryId).ToListAsync();
+            return listValue;
+        }
+
+        public async Task<bool> UpdateStatus(int categoryId, string user)
+        {
+            var details = await _context.Category.FirstOrDefaultAsync(x => x.CategoryId == categoryId);
+            if (details != null)
+            {
+                details.Status = details.Status == "A" ? "N" : "A";
+                details.ModifiedBy = user;
+                details.ModifiedDate = DateTime.UtcNow;
+                var result = await _context.SaveChangesAsync();
+                if (result > 0)
+                    return true;
+            }
+            return false;
         }
     }
 }

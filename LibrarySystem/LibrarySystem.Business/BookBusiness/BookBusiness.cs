@@ -1,4 +1,5 @@
-﻿using LibrarySystem.Repository.BookRepository;
+using LibrarySystem.Repository.BookRepository;
+using LibrarySystem.Repository.Models;
 using LibrarySystem.Shared.BookData;
 
 namespace LibrarySystem.Business.BookBusiness
@@ -18,7 +19,15 @@ namespace LibrarySystem.Business.BookBusiness
             {
                 Name = book.Name,
                 Author = book.Author,
-                Publication = book.Publication
+                Publication = book.Publication,
+                Category = book.Category,
+                Isbn = book.Isbn,
+                TotalCopies = book.TotalCopies,
+                AvailableCopies = book.AvailableCopies,
+                Edition = book.Edition,
+                CreatedBy = book.User,
+                Status = book.Status,
+                ImageUrl = book.ImageUrl
             };
             return await _bookRepository.AddBook(bookEntity);
         }
@@ -36,7 +45,13 @@ namespace LibrarySystem.Business.BookBusiness
                 BookId = bookData.BookId,
                 Name = bookData.Name,
                 Author = bookData.Author,
-                Publication = bookData.Publication
+                Publication = bookData.Publication,
+                Category = bookData.Category,
+                Isbn = bookData.Isbn,
+                TotalCopies = bookData.TotalCopies,
+                AvailableCopies = bookData.AvailableCopies,
+                Edition = bookData.Edition,
+                ImageUrl = bookData.ImageUrl
             };
             return bookDetails;
         }
@@ -52,7 +67,9 @@ namespace LibrarySystem.Business.BookBusiness
                     BookId = book.BookId,
                     Name = book.Name,
                     Author = book.Author,
-                    Publication = book.Publication
+                    Publication = book.Publication,
+                    Status = string.IsNullOrEmpty(book.Status) ? "A" : book.Status,
+                    ImageUrl = book.ImageUrl
                 });
             }
 
@@ -64,6 +81,12 @@ namespace LibrarySystem.Business.BookBusiness
             //}).ToList();
 
             return bookList;
+        }
+
+        public async Task<bool> UpdateStatus(int bookId, string user)
+        {
+            var result = await _bookRepository.UpdateStatus(bookId, user);
+            return result;
         }
     }
 }

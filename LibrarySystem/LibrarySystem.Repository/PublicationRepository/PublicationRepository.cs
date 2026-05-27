@@ -1,85 +1,84 @@
 ﻿using LibrarySystem.Repository.Data;
 using LibrarySystem.Repository.Models;
-using LibrarySystem.Shared.BookData;
 using LibrarySystem.Shared.PublicationData;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LibrarySystem.Repository.PublicationRepository
 {
-
-
     public class PublicationRepository : IPublicationRepository
     {
-        private readonly ApplicationDbContext _dbContext;
-        public PublicationRepository(ApplicationDbContext dbContext)
+        private readonly ApplicationDbContext _context;
+
+        public PublicationRepository(ApplicationDbContext context)
         {
-            _dbContext = dbContext;
+            _context = context;
         }
 
-        public async Task<bool> AddPublication(Publication publication)
+        public async Task<bool> Add(Publication data)
         {
-            await _dbContext.Publications.AddAsync(publication);
-            var result = await _dbContext.SaveChangesAsync();
-            if (result > 0)
-                return true;
-            return false;
-        }
-
-
-
-        public async Task<bool> EditPublication(PublicationDetails publication)
-        {
-            var publicationDetails = _dbContext.Publications.FirstOrDefault(x => x.PublicationId == publication.PublicationId);
-            if (publicationDetails != null)
+            await _context.Publication.AddAsync(data);
+            try
             {
-                publicationDetails.PublicationName = publication.PublicationName;
-                publicationDetails.PublicationAddress = publication.PublicationAddress;
-                publicationDetails.PContactPersonName = publication.PContactPersonName;
-                publicationDetails.PContactPhone = publication.PContactPhone;
-                publicationDetails.PublicationEmail = publication.PublicationEmail;
-                var result = await _dbContext.SaveChangesAsync();
+                var result = await _context.SaveChangesAsync();
+                if (result > 0)
+                    return true;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+                var stackTrace = ex.StackTrace;
+                return false;
+            }
+
+        }
+
+        public async Task<bool> Edit(PublicationDetails publication)
+        {
+            var details = _context.Publication.FirstOrDefault(x => x.PublicationId == publication.PublicationId);
+            if (details != null)
+            {
+                details.PublicationName = publication.PublicationName;
+                details.PublicationAddress = publication.PublicationAddress;
+                details.ContactPersonName = publication.ContactPersonName;
+                details.ContactPhone = publication.ContactPhone;
+                details.PublicationEmail = publication.PublicationEmail;
+                details.PublicationWebsite = publication.PublicationWebsite;
+                details.Status = publication.Status;
+                details.ModifiedBy = publication.User;
+                details.ModifiedDate = DateTime.UtcNow;
+                var result = await _context.SaveChangesAsync();
                 if (result > 0)
                     return true;
             }
             return false;
         }
 
-        public Task<bool> DeletePublication(int publicationId)
+        public async Task<Publication> GetDetails(int id)
         {
-            throw new NotImplementedException();
+            var details = await _context.Publication.AsNoTracking().FirstOrDefaultAsync(x => x.PublicationId == id);
+            return details;
         }
 
-
-        public async Task<Publication> GetPublicationDetails(int id)
+        public async Task<List<Publication>> GetList()
         {
-            var publicationDetails = await _dbContext.Publications.AsNoTracking().FirstOrDefaultAsync(x => x.PublicationId == id);
-            return publicationDetails;
+            var listValue = await _context.Publication.AsNoTracking().OrderByDescending(x => x.PublicationId).ToListAsync();
+            return listValue;
         }
 
-
-        public async Task<List<Publication>> GetPublicationList(string searchText)
+        public async Task<bool> UpdateStatus(int publicationId, string user)
         {
-            var pubicationList = await _dbContext.Publications.AsNoTracking().OrderByDescending(x => x.PublicationId).ToListAsync();
-            var query = _dbContext.Publications.AsQueryable();
-
-            if (!string.IsNullOrEmpty(searchText))
+            var details = await _context.Publication.FirstOrDefaultAsync(x => x.PublicationId == publicationId);
+            if (details != null)
             {
-                query = query.Where(x =>
-                    x.PublicationName.Contains(searchText));
+                details.Status = details.Status == "A" ? "N" : "A";
+                details.ModifiedBy = user;
+                details.ModifiedDate = DateTime.UtcNow;
+                var result = await _context.SaveChangesAsync();
+                if (result > 0)
+                    return true;
             }
-
-            query = query.OrderByDescending(x => x.PublicationId);
-
-
-            return await query.ToListAsync();
-
-            return pubicationList;
-
+            return false;
         }
-
-
     }
 }

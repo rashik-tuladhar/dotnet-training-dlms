@@ -1,11 +1,13 @@
 using LibrarySystem.Models;
 using LibrarySystem.Repository.Data;
 using LibrarySystem.Repository.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace LibrarySystem.Controllers
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class TestController : Controller
     {
         private readonly ApplicationDbContext _context;

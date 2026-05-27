@@ -5,33 +5,47 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.Repository.AuthorRepository
 {
-    public class AuthorRepository : IAuthorRepository
+    public class AuthorRepository : IAuthorRepository   
     {
         private readonly ApplicationDbContext _context;
+
         public AuthorRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<bool> AddAuthor(Author author)
+        public async Task<bool> Add(Author data)
         {
-            await _context.Authors.AddAsync(author);
-            var result = await _context.SaveChangesAsync();
-            if (result > 0)
-                return true;
-            return false;
+            await _context.Author.AddAsync(data);
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+                if (result > 0)
+                    return true;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+                var stackTrace = ex.StackTrace;
+                return false;
+            }
+
         }
 
-        public async Task<bool> EditAuthor(AuthorDetails author)
+        public async Task<bool> Edit(AuthorDetails author)
         {
-            var authorDetails = _context.Authors.FirstOrDefault(x => x.Id == author.AuthorId);
-            if (authorDetails != null)
+            var details = _context.Author.FirstOrDefault(x => x.AuthorId == author.AuthorId);
+            if (details != null)
             {
-                authorDetails.FirstName = string.IsNullOrEmpty(author.FirstName)?"":author.FirstName;
-                authorDetails.MiddleName = string.IsNullOrEmpty(author.MiddleName)?"":author.MiddleName;
-                authorDetails.LastName = string.IsNullOrEmpty(author.LastName) ? "" : author.LastName;
-                authorDetails.DateOfBirth = author.DateOfBirth;
-                authorDetails.Bio = author.Bio;
+                details.FirstName = author.FirstName;
+                details.MiddleName = author.MiddleName;
+                details.LastName = author.LastName;
+                details.Bio = author.Bio;
+                details.DateOfBirth = author.DateOfBirth;
+                details.Status = author.Status;
+                details.ModifiedBy = author.User;
+                details.ModifiedDate = DateTime.UtcNow;
                 var result = await _context.SaveChangesAsync();
                 if (result > 0)
                     return true;
@@ -39,17 +53,31 @@ namespace LibrarySystem.Repository.AuthorRepository
             return false;
         }
 
-        public async Task<Author?> GetAuthorDetails(int id)
+        public async Task<Author> GetDetails(int id)
         {
-            var authorDetails = await _context.Authors.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-            return authorDetails;
+            var details = await _context.Author.AsNoTracking().FirstOrDefaultAsync(x => x.AuthorId == id);
+            return details;
         }
 
-
-        public async Task<List<Author>> GetAuthorList()
+        public async Task<List<Author>> GetList()
         {
-            var authorList = await _context.Authors.AsNoTracking().OrderByDescending(x => x.Id).ToListAsync();
-            return authorList;
+            var listValue = await _context.Author.AsNoTracking().OrderByDescending(x => x.AuthorId).ToListAsync();
+            return listValue;
+        }
+
+        public async Task<bool> UpdateStatus(int authorId, string user)
+        {
+            var details = await _context.Author.FirstOrDefaultAsync(x => x.AuthorId == authorId);
+            if (details != null)
+            {
+                details.Status = details.Status == "A" ? "N" : "A";
+                details.ModifiedBy = user;
+                details.ModifiedDate = DateTime.UtcNow;
+                var result = await _context.SaveChangesAsync();
+                if (result > 0)
+                    return true;
+            }
+            return false;
         }
     }
 }

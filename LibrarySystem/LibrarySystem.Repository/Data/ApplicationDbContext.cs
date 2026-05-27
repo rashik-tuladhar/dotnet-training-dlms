@@ -1,19 +1,10 @@
-﻿using LibrarySystem.Repository.Models;
+using LibrarySystem.Repository.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.Repository.Data
 {
-    //public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
-    //{
-    //    public DbSet<Book> Books { get; set; }
-    //    public DbSet<Author> Authors { get; set; }
-    //    public DbSet<Category> Categories { get; set; }
-    //    public DbSet<LibraryLocation> LibraryLocations { get; set; }
-    //    public DbSet<Publication> Publications { get; set; }
-    //}
-
-
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -21,9 +12,20 @@ namespace LibrarySystem.Repository.Data
         }
 
         public DbSet<Book> Books { get; set; }
-        public DbSet<Author> Authors { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<LibraryLocation> LibraryLocations { get; set; }
-        public DbSet<Publication> Publications { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Publication> Publication { get; set; }
+        public DbSet<Author> Author { get; set; }
+        public DbSet<Member> Member { get; set; }
+        public DbSet<Borrow> Borrows { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Book>()
+                .HasIndex(b => b.Isbn)
+                .IsUnique();
+        }
+
     }
 }

@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="10.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.7">
@@ -36,6 +37,13 @@
     <ProjectReference Include="..\LibrarySystem.Business\LibrarySystem.Business.csproj" />
     <ProjectReference Include="..\LibrarySystem.Shared\LibrarySystem.Shared.csproj" />
     <ProjectReference Include="..\LibrarySystem.Repository\LibrarySystem.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Views\Author\Index.cshtml" />
+    <AdditionalFiles Include="Views\Member\Add.cshtml" />
+    <AdditionalFiles Include="Views\Member\Edit.cshtml" />
+    <AdditionalFiles Include="Views\Member\Index.cshtml" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LibrarySystem.Shared.PublicationData
 {
@@ -13,13 +10,13 @@ namespace LibrarySystem.Shared.PublicationData
         [Required]
         public string? PublicationAddress { get; set; }
         [Required]
-        public string? PContactPersonName { get; set; }
+        public string? ContactPersonName { get; set; }
         [Required]
-        public string? PContactPhone { get; set; }
+        public string? ContactPhone { get; set; }
         [Required]
         public string? PublicationEmail { get; set; }
-
-
         public string? PublicationWebsite { get; set; }
+        public string? Status { get; set; }
+        public string? User { get; set; }
     }
 }

@@ -1,16 +1,42 @@
 ﻿@using LibrarySystem.Shared.CategoryData
 @model List<CategoryDetails>
-<h1>Hello Category Index</h1>
+@section Styles {
+    <style>
+        .table-responsive {
+            margin-top: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.8/css/dataTables.dataTables.min.css" asp-append-version="true" />
+}
 
+<h1>Category Management</h1>
+
+@{
+    string tempDataMessage = TempData["isSuccess"] as string;
+    if(!string.IsNullOrEmpty(tempDataMessage))
+    {
+        if (tempDataMessage == "YES")
+        {
+            <div class="alert alert-success">@TempData["Message"]</div>
+        }
+        else
+        {
+            <div class="alert alert-danger">@TempData["Message"]</div>
+        }
+    }
+}
+
+<a asp-controller="Category" asp-action="Add" class="btn btn-primary">Add Category</a>
 
 <div class="table-responsive">
-    <table class="table">
+    <table class="table" id="categoryTable">
         <thead>
             <tr>
                 <th>SN</th>
                 <th>Category Id</th>
                 <th>Category Name</th>
                 <th>Category Description</th>
+                <th>Category Status</th>
                 <th>Operations</th>
             </tr>
         </thead>
@@ -21,10 +47,25 @@
                 {
                     <tr>
                         <td>@i</td>
-                        <td>@category.Id</td>
+                        <td>@category.CategoryId</td>
                         <td>@category.Name</td>
                         <td>@category.Description</td>
-                        <td><a class="btn btn-primary btn-sm" asp-controller="Category" asp-action="EditCategory" asp-route-id="@category.">Edit</a></td>
+                        <td>
+                            @{
+                                if (category.Status == "A")
+                                {
+                                    <span class="badge bg-success">Available</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Not Available</span>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" asp-controller="Category" asp-action="Edit" asp-route-id="@category.CategoryId">Edit</a>
+                            <a class="btn btn-warning btn-sm" asp-controller="Category" asp-action="UpdateStatus" asp-route-id="@category.CategoryId" onclick="return confirm('Are you sure you want to change the status?')">Change Status</a>
+                        </td>
                     </tr>
                     i++;
                 }
@@ -32,3 +73,10 @@
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js" asp-append-version="true"></script>
+    <script>
+        $('#categoryTable').DataTable();
+    </script>
+}
