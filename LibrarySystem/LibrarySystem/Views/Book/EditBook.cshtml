@@ -1,5 +1,9 @@
 @using LibrarySystem.Shared.BookData
 @using LibrarySystem.Helpers
+@{
+    ViewData["Title"] = "Books Management";
+    ViewData["SubTitle"] = "Book Edit";
+}
 @model BookDetails
 <h1>Edit Book</h1>
 <form asp-controller="Book" asp-action="EditBook" method="post" enctype="multipart/form-data">

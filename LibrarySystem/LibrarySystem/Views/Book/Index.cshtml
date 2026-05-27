@@ -1,5 +1,12 @@
 @using LibrarySystem.Shared.BookData
 @using LibrarySystem.Helpers
+@using LibrarySystem.Shared
+
+@{
+    ViewData["Title"] = "Books Management";
+    ViewData["SubTitle"] = "Books List";
+}
+
 @model List<BookDetails>
 @section Styles {
     <style>
@@ -22,8 +29,6 @@
     </style>
     <link rel="stylesheet" href="//cdn.datatables.net/2.3.8/css/dataTables.dataTables.min.css" asp-append-version="true" />
 }
-
-<h1>Hello Book Index</h1>
 
 @{
     string tempDataMessage = TempData["isSuccess"] as string;
